@@ -1,0 +1,15 @@
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_rent_contract_reminder" model="ir.cron">
+            <field name="name">Rent Contract Reminder</field>
+            <field name="model_id" ref="fleet_rental.model_car_rental_contract"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_rent_contract_reminder()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+    </data>
+</odoo>

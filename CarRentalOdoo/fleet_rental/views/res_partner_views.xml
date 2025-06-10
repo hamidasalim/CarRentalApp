@@ -1,0 +1,83 @@
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Remove unwanted fields -->
+                <xpath expr="//field[@name='function']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='title']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <!-- Change field labels -->
+                <xpath expr="//field[@name='mobile']" position="attributes">
+                    <attribute name="string">Numéro de téléphone</attribute>
+                </xpath>
+
+                <!-- Insert custom fields -->
+                <xpath expr="//notebook" position="before">
+                    <group>
+                        <group string="Informations Personnelles">
+                            <field name="password" string=" Mot de passe"></field>
+                            <field name="x_date_of_birth" string="Date de naissance"/>
+                            <field name="x_place_of_birth" string="Lieu de naissance"/>
+                            <field name="cin_number" string="Numéro CIN"/>
+                            <field name="x_cin_issue_date" string="CIN Délivrée le"/>
+                            <field name="driver_license_number" string="Numéro de permis de conduire"/>
+                            <field name="x_license_issue_date" string="Permis délivré le"/>
+                            <field name="x_license_category" string="Permis catégorie"/>
+                        </group>
+                        <group>
+
+
+                            <field name="identity_card_picture" widget="image" string="Carte d'identité"/>
+                            <field name="drivers_license_picture" widget="image" string="Permis de conduire"/>
+                        </group>
+                    </group>
+                    <!-- Hidden Fields -->
+                    <field name="is_conducteur" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_res_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">res.partner.tree.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="cin_number"/>
+                    <field name="driver_license_number"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Action for Conducteurs -->
+        <record id="action_car_rental_conducteurs" model="ir.actions.act_window">
+            <field name="name">Conducteurs</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_conducteur', '=', True)]</field>
+            <field name="context">{'default_is_conducteur': True}</field>
+        </record>
+
+        <!-- Main Menuitem -->
+        <menuitem id="car_rental_user_menu" name="Utilisateurs" parent="fleet.menu_root" groups="fleet.fleet_group_manager"/>
+
+        <!-- Submenu for Conducteurs -->
+        <menuitem id="car_rental_conducteurs_menu" name="Conducteurs" action="action_car_rental_conducteurs" parent="car_rental_user_menu"/>
+    </data>
+</odoo>

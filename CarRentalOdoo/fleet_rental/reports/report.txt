@@ -1,0 +1,82 @@
+from odoo import models, fields, tools
+
+
+class FleetRentalReport(models.Model):
+    _name = "report.fleet.rental"
+    _description = "Fleet Rental Analysis"
+    _order = 'name desc'
+    _auto = False
+
+    name = fields.Char(string="Nom")
+    customer_id = fields.Many2one('res.partner', string="Conducteur")
+    company_id = fields.Many2one('res.company', string='Client')
+    second_driver = fields.Many2one('res.partner', string="2ème Conducteur")
+    vehicle_id = fields.Many2one('fleet.vehicle', string="Véhicule")
+    car_brand = fields.Char(related='vehicle_id.model_id.brand_id.name', string="Marque de voiture", readonly=True)
+    car_color = fields.Char(related='vehicle_id.color', string="Couleur de la voiture", readonly=True)
+    total_cost = fields.Float(string="Coût de location")
+    rent_start_date = fields.Datetime(string="Date de début de location")
+    rent_end_date = fields.Datetime(string="Date de fin de location")
+    state = fields.Selection([
+        ('draft', 'Brouillon'),
+        ('confirmed', 'Confirmé'),
+        ('running', 'En Cours'),
+        ('done', 'Terminé'),
+        ('cancel', 'Annulé')
+    ], string='État')
+    total_days = fields.Integer(string="Total Jours")
+
+    def _select(self):
+        """
+            Construct a SQL select query string with specific fields.
+        """
+        select_str = """
+             SELECT
+                    t.id as id,
+                    t.name as name,
+                    t.company_id as company_id,
+                    t.customer_id as customer_id,
+                    t.second_driver as second_driver,
+                    t.vehicle_id as vehicle_id,
+                    t.total_cost as total_cost,
+                    t.rent_start_date as rent_start_date,
+                    t.rent_end_date as rent_end_date,
+                    t.state as state,
+                    t.total_days as total_days
+        """
+        return select_str
+
+    def _group_by(self):
+        """
+            Construct a SQL GROUP BY query string with specific fields.
+        """
+        group_by_str = """
+                GROUP BY
+                    t.id,
+                    t.name,
+                    t.company_id,
+                    t.customer_id,
+                    t.second_driver,
+                    t.vehicle_id,
+                    t.total_cost,
+                    t.rent_start_date,
+                    t.rent_end_date,
+                    t.state,
+                    t.total_days
+        """
+        return group_by_str
+
+    def init(self):
+        """
+            Initialize the module and create a database view for reporting
+            fleet rentals.
+            Drop the existing 'report_fleet_rental' view if it already exists.
+            Create a new view with the SQL select and group by queries.
+        """
+        tools.sql.drop_view_if_exists(self._cr, 'report_fleet_rental')
+        self._cr.execute("""
+            CREATE view report_fleet_rental as
+              %s
+              FROM car_rental_contract t
+                %s
+        """ % (self._select(), self._group_by()))

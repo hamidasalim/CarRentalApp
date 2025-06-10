@@ -1,0 +1,193 @@
+        <report
+                 id="rent_car_etat_journal"
+                 string="Etat"
+                 model="rent.car.etat.model"
+                 report_type="qweb-pdf"
+                 file="fleet_rental.rent_car_etat_journal"
+                 name="fleet_rental.rent_car_etat_template"
+                 attachment_use="False"/>
+      <template id="fleet_rental.rent_car_etat_template">
+           <t t-call="web.html_container">
+             <t t-call="web.external_layout">
+               <t t-foreach="docs" t-as="doc">
+                 <div class="page">
+                   <style>
+                     .text-center{
+                     text-align:center!important;
+                     }
+                     hr {
+                     border-top: 2px solid black;
+                     width :100%;
+                     padding-right : 100%;
+                     }
+                     .titles{
+                     color:black!important;
+                     font-size : 14px;
+                     font-weight : bold;
+                     }
+
+                     table, th, td{
+                     border : 1px solid black;
+                     padding : 5px;
+                     }
+                     td{
+                     padding:5 px!important;
+                     }
+                   </style>
+                   <br/>
+                     <div class="row">
+                       <!-- <center> <h3>Location DE <t t-esc="doc.date_from"/> A <t t-esc="doc.date_to"/></h3></center> -->
+                     </div>
+
+                   <div class="row mt32">
+                     <table width="100%">
+                             <thead>
+                               <tr>
+                                   <th class="titles text-center">
+                                     Employé
+                                   </th>
+
+                                   <th class="titles text-center">
+                                     Date Pointage
+                                   </th>
+                                    <th class="titles text-center">
+                                     Heure d'entrée
+                                   </th>
+                                   <th class="titles text-center">
+                                     Heure de sortie
+                                   </th>
+                                   <th class="titles text-center">
+                                     Heures Travaillés
+                                   </th>
+                                   <th class="titles text-center">
+                                     Jours Travaillés
+                                   </th>
+                                 </tr>
+                             </thead>
+
+                             <tbody>
+
+                               </tbody>
+                       </table>
+                   </div>
+                </div>
+               </t>
+             </t>
+           </t>
+         </template>
+
+               <report
+            id="report_fleet_rent_conditions"
+            model="car.rental.contract"
+            string="Conditions Générale"
+            report_type="qweb-pdf"
+            name="fleet_rental.report_fleet_rent_conditions_pdf"
+            file="fleet_rental.report_fleet_rent_conditions_pdf"
+            />
+
+
+        <template id="report_fleet_rent_conditions_pdf">
+             <t t-call="web.html_container">
+                 <t>
+                   <br/>
+                     <!-- <t t-call="web.external_layout"> -->
+                         <!-- <div class="page">
+                         </div> -->
+                         <h3><b><center>Conditions Générales</center></b></h3>
+                          <div>
+         <p style="color:black !important;font-size:13px;">
+        <b><u>Article 1 : UTILISATION DE LA VOITURE</u></b><br/>
+
+        Le locataire s'engage à ne pas laisser conduire la voiture par d'autres personnes que tu même ou celle mentionnée dans le contrat de location et agrée par Hamida
+
+        Le locataire se porte garant à ne servir du véhicule loué que pour ses besoins personnels, à ne se server du véhicule pour le transport de personnes à titre onéreux
+
+        Pour le transport d'un nombre personés supérieur à celui mentionne sur la carte grise, pour participer à des rallyes compétitions ou essais quel que soit le lieu,
+
+        Pour donner des cours de conduite pour pousser ou tirer un autre véhicule, sur des routes bonnes carrossables ou dont la surface ou l'état présente des risques pour
+
+        Les pneus ou les organes sous le véhicule, pour commettre une infraction intentionnelle.
+
+        Te locataires interdise de quitter avec le véhicule loué in territoire Tunisien sans autorisation écrite préalable et expresse du gérant de Hamida
+
+        Le locataire s'engage à rendre la voiture louée à la même heure et date indiquées au contrat de location.<br/>
+
+        <b><u>Article 2 : ETAT DE LA VOITURE</u></b><br/>
+
+        La voiture loves est livrée en parfait état de marche et de propreté, Le véhicule loue doit être rendue dans le même état de ces nettoyages et mise en état. Les S pneus sont en bon état 140 coupures. En cas de détérioration de run d'eux par une cause autre que future normale ou autre que la collision avec un autre véhicule.
+
+        Locataire s'engage à le remplacer immédiatement à ses frais, par pneu de Mame dimension et d'usure sensiblement égale, même si la suppression de franchise a été acceptée
+
+        La voiture louée avec les papiers originaux (carte grise, vignette, attestation d'assurances, visite technique, carte d'exploitation, Quittance de vignette), les frais de perte sont fixé a 200 dinars
+
+        <br/><b><u>Article 3 : CARBURANT ET HUILE </u></b><br/>
+        Le carburant est à la charge du client qui doit vérifier en permanence les niveaux d'huile
+
+
+        <br/><b><u>Article 4 : ENTRETIEN ET REPARATION </u></b><br/>
+        L'usure mécanique normale est à la charge de Hamida Toutes les réparations provenant, soit d'une usure anormale, Salt d'une négligence de conduite ou d'mutilation
+
+        De la part du locataire seront à sa charge et exécutés par les soins de Hamida Dans le cas où le véhicule immobilisé les réparations ne pourront être exécutées qu'après accord écrit selon les directives de Hamida, elles doivent faire l'objet d'une facture acquittée. Les frais d'entretien sont à la charge de Hamida
+
+        <br/><b><u>Article 5 : ASSURANCE </u></b><br/>
+
+        Seuls les conducteurs agrées par Hamida pourront se prévaloir de la qualité de l'assurance telle que définie par le décret du 7/1/1959.
+
+        Assurances aux tiers : Tout accident nécessite la présentation dans les 48 h quel suivent la date d’accident, d'un constat d'assurance en bonne et due forme rempli par le locataire et la déclaration immédiate d’Accident aux autorisés de police.
+
+        Le Client fautif ou responsable de l'accident doit supporter les charges de la réparation tout dégât cause au véhicule loue, ainsi l'immobilisation du véhicule
+
+        Le client non fautif supportera les dégâts causés au véhicule et dont le montant ne dépasse pas 4% de la valeur du véhicule telle qu’indiquée à la facture Les dommages coalisés aux bris de glaces, lumière avant et arrière, à l'intérieur du véhicule aux pneumatiques ainsi que la perte d'équipements sont à la charge du client.
+
+        Incendie Le véhicule loué est assure contre le risque d'incendie.
+
+        <br/><b><u>Article 6 : OBLIGATIONS DU LOCATAIRE EN CAS D'ACCIDENT </u></b><br/>
+
+        Toute inobservation par le locataire de l'une des obligations de l'article 1 susvisées entraine la déchéance de l'assurance
+
+        Tout conducteur non muni d'un permis de conduire en état de validité ou conduisant en état d'ivresse n'est aucunement couvert par l'assurance En cas d'accident le locataire doit bien établir un constat à l'amiable et le présenter avec une copie d'attestation d'assurance et permis de conduire de la contre partie
+
+        <br/><b><u> Article 7 : COMPETENCE </u></b><br/>
+
+        Toung Meige concevant interprétation ou exécution de ce contrat non résolu à l'ambiance sera de la compétence des juridictions du siège de la bailleresse nul constitut aussi le dieu d'exécution convenu du contrat la partie succombant supporte les frais du justice et honoraire d'avocat fixes à 400 dinars en 1 insti. 500 dinars en appel. 600 dinars en cassation quel que soit la nature de l'affaire mémé de ce frai
+
+         </p>
+
+        <h3><center>  الشروط العامة لكراء السيارات</center></h3>
+        <p style="text-align: right !important; color:black !important;font-size:13px;">
+        <b><u>الفصل الأول : استعمال السيارة</u></b><br/>
+
+        يلتزم المؤجر بعدم قيادة السيارة من طرف اشخاص غير مدرجة اسمائهم بعقد الكراء بلتم المؤجر باستعمال السيارة لأغراضه الشخصية فقط و عدم استعمالها في - نقل الأشخاص بمقابل - نقل عدد الركاب يتجاوز المسموح به بالبطاقة الرمادية - المشاركة في السباقات وتقديم دروس في تعليم السياقة جر أو دفع عربات أخرى يمنع على المؤجر مغادرة التراب التونسي بالسيارة المؤجرة بدون ترخيص من شركة براديس / يلتزم المؤجر بإرجاع السيارة في التاريخ والساعة المدرجة في عقد الكراء
+
+        <br/><b><u>الفصل الثاني حالة السيارة</u></b><br/>
+
+        تكون السيارة المؤجرة في حالة حسنة من النظافة و التشغيل و ينبغي على المؤجر ارجاعها على نفس الحالة تؤجر السيارة بخمسة اطارات في حالة حسنة وينبغي على المؤجر تعويض كل إطار وقع اتلافه أو فقدانه
+
+        <br/><b><u>الفصل الثالث: الزيوت والوقود</u></b><br/>
+
+        يتحمل المؤجر مصاريف الوقود وينبغي عليه مراقبة مستوى الزيوت بإستمرار الفصل الرابع : الصيانة وإصلاح السيارة يتحمل المؤجر مصاريف إصلاح السيارة في حالة قيادتها بطريقة غير مسؤولة / تحمل شركة براديس مصاريف صيانة السيارة
+        <br/><b><u>الفصل الرابع : الصيانة وإصلاح السيارة</u></b><br/>
+
+        يتحمل المؤجر مصاريف إصلاح السيارة في حالة قيادتها بطريقة غير مسؤولة تحمل شركة براديس مصاريف صيانة السيارة
+
+        <br/><b><u>الفصل الخامس : التأمين</u></b><br/>
+
+        يتحمل المؤجر المنسب والمسؤول في الحادث بجميع مصاريف إصلاح السيارة المتضررة مع دفع معلوم ركونها في المستودع يتحمل المؤجر الغير تسبب في الحادث بمصاريف إصلاح السيارة تقدر ب 4% من فاتورة شراء السيارة يتحمل المؤجر الأضرار الناجمة للبلور، الأضواء الإطارات والإكسسوارات / الحريق : السيارة المؤجرة مؤمنة ضد الحرائق
+
+      <br/>  <b><u>الفصل السادس: التزامات المؤجر في حالة حادث مرور </u></b><br/>
+
+        يسقط التأمين في صورة عدم امتثال المؤجر بشرط من شروط الفصل الأول يتمتع السائق الذي لا تتوفر فيه السن القانونية و مدة صلوحيه رخصة السياقة بالتغطية من قبل شركة التأمين كذلك سياقة السيارة في حالة سكر. ينبغي على السائق تعمير تقرير الحادث وتقديمه مع نسخة من شهادة تأمين و رخصة السياقة للطرف المقابل في الحادث / يتحمل المؤجر مصاريف نقل السيارة إلى مستودع الشركة في حالة حادث مرور
+
+        <br/><b><u>الفصل السابع : الاختصاص</u></b><br/>
+
+        في صورة خلاف في شأن تفسير أو تنفيذ هذا العقد لم تتم تسويته رضائيا في أجل معقول يكون النزاع في شانه من اختصاص معاككم مقر الشركة المسموعة الذي يعتبر كذلك مكان تنفيذ العقد التعاقدي و يتحمل الطرف المحكوم ضده بغرامة أتعاب تقاضي وأجرة محاماة القافية قدرها 500 دينار و 600 دينارا
+
+        تعقيباي عن كل قضية ولو استعجاليا
+
+        </p>
+
+                          </div>
+                       </t>
+                 </t>
+             <!-- </t> -->
+        </template>

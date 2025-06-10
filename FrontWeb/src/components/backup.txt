@@ -1,0 +1,373 @@
+<template>
+  <section class="register-container bg-gray-100 text-gray-800 font-poppins flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl register-modal">
+      <h2 class="text-3xl font-bold text-[#213363] mb-6 text-center">Create Your Account</h2>
+      <form @submit.prevent="handleRegister" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Left Column -->
+        <div>
+          <!-- Name -->
+          <div>
+            <label for="name" class="block text-lg font-semibold mb-2">Name</label>
+            <input type="text" id="name" v-model="name" placeholder="Enter your name" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+
+          <!-- Email -->
+          <div class="mt-4">
+            <label for="email" class="block text-lg font-semibold mb-2">Email</label>
+            <input type="email" id="email" v-model="email" placeholder="Enter your email" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+
+          <!-- Password -->
+          <div class="mt-4">
+            <label for="password" class="block text-lg font-semibold mb-2">Password</label>
+            <input type="password" id="password" v-model="password" placeholder="At least 8 characters" class="w-full p-3 border rounded-lg focus:outline-none" minlength="8" maxlength="16" required />
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mt-4">
+            <label for="confirmPassword" class="block text-lg font-semibold mb-2">Confirm Password</label>
+            <input type="password" id="confirmPassword" v-model="confirmPassword" placeholder="Re-enter your password" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+
+          <!-- Address -->
+          <div class="mt-4">
+            <label class="block text-lg font-semibold mb-2">Address</label>
+            <div class="grid grid-cols-2 gap-4">
+              <input type="text" v-model="street" placeholder="Street" class="w-full p-3 border rounded-lg focus:outline-none"  />
+              <input type="text" v-model="street2" placeholder="Street 2" class="w-full p-3 border rounded-lg focus:outline-none" />
+              <input type="text" v-model="city" placeholder="City" class="w-full p-3 border rounded-lg focus:outline-none"  />
+              <input type="text" v-model="postalCode" placeholder="Postal Code" class="w-full p-3 border rounded-lg focus:outline-none"  />
+              <input type="text" v-model="country" placeholder="Country" class="w-full p-3 border rounded-lg focus:outline-none" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div>
+          <!-- Mobile Number -->
+          <div>
+            <label for="mobile" class="block text-lg font-semibold mb-2">Mobile Number</label>
+            <input type="text" id="mobile" v-model="mobile" placeholder="Enter your mobile number" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+
+          <!-- Date of Birth -->
+          <div class="mt-4">
+            <label for="dob" class="block text-lg font-semibold mb-2">Date of Birth</label>
+            <input type="date" id="dob" v-model="dob" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+
+          <!-- CIN Details -->
+          <div class="mt-4">
+            <label for="cinNumber" class="block text-lg font-semibold mb-2">CIN Number</label>
+            <input type="text" id="cinNumber" v-model="cinNumber" placeholder="Enter your CIN number" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+          <div class="mt-4">
+            <label for="cinDate" class="block text-lg font-semibold mb-2">CIN Issue Date</label>
+            <input type="date" id="cinDate" v-model="cinDate" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+
+          <!-- Driver's License Details -->
+          <div class="mt-4">
+            <label for="driverLicenseNumber" class="block text-lg font-semibold mb-2">Driver's License Number</label>
+            <input type="text" id="driverLicenseNumber" v-model="driverLicenseNumber" placeholder="Enter your driver's license number" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+          <div class="mt-4">
+            <label for="driverLicenseDate" class="block text-lg font-semibold mb-2">License Issue Date</label>
+            <input type="date" id="driverLicenseDate" v-model="driverLicenseDate" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+          <div class="mt-4">
+            <label for="driverLicenseCategory" class="block text-lg font-semibold mb-2">Driver's License Category</label>
+            <input type="text" id="driverLicenseCategory" v-model="driverLicenseCategory" placeholder="Enter your driver's license Category" class="w-full p-3 border rounded-lg focus:outline-none" required />
+          </div>
+        </div>
+
+        <!-- File Uploads -->
+        <div>
+          <label class="block text-lg font-semibold mb-2">Profile Picture</label>
+          <input type="file" @change="handleFileChange($event, 'profilePic')" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        <div>
+          <label class="block text-lg font-semibold mb-2">Identity Card Picture</label>
+          <input type="file" @change="handleFileChange($event, 'identityCard')" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        <div>
+          <label class="block text-lg font-semibold mb-2">Driver's License Picture</label>
+          <input type="file" @change="handleFileChange($event, 'driversLicense')" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+
+        <!-- Submit Button (Full Width) -->
+        <div class="col-span-1 md:col-span-2">
+          <button type="submit" class="w-full bg-[#213363] text-white font-bold rounded-full py-3 hover:scale-105 transition-transform duration-300 ease-in-out">
+            Register
+          </button>
+        </div>
+      </form>
+      <p class="mt-4 text-center text-gray-700">
+        Already have an account? 
+        <router-link to="/login" class="text-[#213363] font-semibold hover:underline">Login here</router-link>
+      </p>
+
+      <button @click="goToHome" class="mt-6 w-full bg-gray-200 text-gray-800 font-semibold rounded-full py-3 hover:bg-gray-300 transition-transform duration-300 ease-in-out">
+        Back to Home
+      </button>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import api from '@/api';
+
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+const street = ref('');
+const street2 = ref('');
+const city = ref('');
+const country = ref('');
+const postalCode = ref('');
+const mobile = ref('');
+const dob = ref('');
+const cinNumber = ref('');
+const cinDate = ref('');
+const driverLicenseNumber = ref('');
+const driverLicenseCategory = ref('');
+const driverLicenseDate = ref('');
+const profilePic = ref(null);
+const identityCard = ref(null);
+const driversLicense = ref(null);
+const router = useRouter();
+
+const handleFileChange = (event, field) => {
+  const file = event.target.files[0];
+  if (field === 'profilePic') profilePic.value = file;
+  if (field === 'identityCard') identityCard.value = file;
+  if (field === 'driversLicense') driversLicense.value = file;
+};
+
+const handleRegister = async () => {
+  if (password.value !== confirmPassword.value) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  const encodeFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]); // Extract Base64 string
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  try {
+    const profilePicBase64 = profilePic.value ? await encodeFileToBase64(profilePic.value) : null;
+    const identityCardBase64 = identityCard.value ? await encodeFileToBase64(identityCard.value) : null;
+    const driversLicenseBase64 = driversLicense.value ? await encodeFileToBase64(driversLicense.value) : null;
+
+    const requestData = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      street: street.value,
+      street2: street2.value,
+      city: city.value,
+      country: country.value,
+      postalCode: postalCode.value,
+      mobile: mobile.value,
+      dob: dob.value,
+      cinNumber: cinNumber.value,
+      cinDate: cinDate.value,
+      driverLicenseNumber: driverLicenseNumber.value,
+      driverLicenseCategory: driverLicenseCategory.value,
+      driverLicenseDate: driverLicenseDate.value,
+      profilePic: profilePicBase64,
+      identityCard: identityCardBase64,
+      driversLicense: driversLicenseBase64,
+    };
+
+    const response = await api.post('/users/register', requestData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    alert(response.data.message || "Registration successful");
+    router.push('/login');
+  } catch (error) {
+    const message = error.response?.data?.error || "Registration failed. Please try again.";
+    alert(message);
+  }
+};
+const goToHome = () => {
+  router.push('/');
+};
+</script>
+
+<style scoped>
+.register-container {
+  background-color: #f8f9fa;
+  margin-top: 350px;
+ 
+}
+.register-modal {
+  margin-top: 180px;
+ 
+}
+
+button {
+  transition: transform 0.3s ease;
+}
+</style>
+
+**********************************************************************************************************************************
+
+<template>
+  <section class="register-container bg-primary text-gray-800 font-poppins flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+      <h2 class="text-2xl font-bold text-[#213363] mb-4 text-center">Create an Account</h2>
+      <form @submit.prevent="handleRegister">
+        <div class="mb-4">
+          <label for="name" class="block text-lg font-semibold mb-2">Name</label>
+          <input type="text" id="name" v-model="name" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        
+        <div class="mb-4">
+          <label for="email" class="block text-lg font-semibold mb-2">Email</label>
+          <input type="email" id="email" v-model="email" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        
+        <div class="mb-4">
+          <label for="password" class="block text-lg font-semibold mb-2">Password</label>
+          <input type="password" id="password" v-model="password" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        
+        <div class="mb-6">
+          <label for="confirmPassword" class="block text-lg font-semibold mb-2">Confirm Password</label>
+          <input type="password" id="confirmPassword" v-model="confirmPassword" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        
+        <button type="submit" class="w-full bg-cream text-gray-800 font-bold rounded-full py-3 hover:scale-105 transition-transform duration-300 ease-in-out">
+          Register
+        </button>
+      </form>
+      
+      <p class="mt-4 text-center text-gray-700">
+        Already have an account? 
+        <router-link to="/login" class="text-[#213363] font-semibold hover:underline">Login here</router-link>
+      </p>
+
+      <button @click="goToHome" class="mt-6 w-full bg-gray-200 text-gray-800 font-semibold rounded-full py-3 hover:bg-gray-300 transition-transform duration-300 ease-in-out">
+        Back to Home
+      </button>
+    </div>
+  </section>
+</template>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import api from '@/api'; // Your API service
+
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+const router = useRouter();
+
+const handleRegister = async () => {
+  if (password.value === confirmPassword.value) {
+    try {
+      const response = await api.post('/users/register', {
+        name: name.value,
+        email: email.value,
+        password: password.value
+      });
+      alert(response.data.message || 'Registration successful');
+      router.push('/login'); // Redirect to login page
+    } catch (error) {
+      const message = error.response?.data?.error || 'Registration failed. Please try again.';
+      alert(message);
+    }
+  } else {
+    alert("Passwords do not match");
+  }
+};
+
+const goToHome = () => {
+  router.push('/');
+};
+</script>
+
+**********************************************************************************
+<template>
+  <section class="login-container bg-primary text-gray-800 font-poppins flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+      <h2 class="text-2xl font-bold text-[#213363] mb-4 text-center">Login to Hamida's Rentals</h2>
+      <form @submit.prevent="handleLogin">
+        <div class="mb-4">
+          <label for="email" class="block text-lg font-semibold mb-2">Email</label>
+          <input type="email" id="email" v-model="email" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        
+        <div class="mb-6">
+          <label for="password" class="block text-lg font-semibold mb-2">Password</label>
+          <input type="password" id="password" v-model="password" class="w-full p-3 border rounded-lg focus:outline-none" required />
+        </div>
+        
+        <button type="submit" class="w-full bg-cream text-gray-800 font-bold rounded-full py-3 hover:scale-105 transition-transform duration-300 ease-in-out">
+          Login
+        </button>
+      </form>
+      
+      <p class="mt-4 text-center text-gray-700">
+        Don’t have an account? 
+        <router-link to="/register" class="text-[#213363] font-semibold hover:underline">Register here</router-link>
+      </p>
+
+      <button @click="goToHome" class="mt-6 w-full bg-gray-200 text-gray-800 font-semibold rounded-full py-3 hover:bg-gray-300 transition-transform duration-300 ease-in-out">
+        Back to Home
+      </button>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import api from '@/api'; // import axios instance
+
+const email = ref('');
+const password = ref('');
+const router = useRouter();
+
+const handleLogin = async () => {
+  try {
+    console.log("test02")
+
+    const response = await api.post('/auth/login', { email: email.value, password: password.value });
+    console.log("test03")
+
+    localStorage.setItem('token', response.data.token); // Save token to localStorage
+    console.log("test04")
+
+    router.push('/'); // Redirect to home
+  } catch (error) {
+    console.error(error);
+    alert('Login failed');
+  }
+};
+
+const goToHome = () => {
+  router.push('/');
+};
+</script>
+
+<style scoped>
+.login-container {
+  background-color: #f8f9fa;
+}
+
+button {
+  transition: transform 0.3s ease;
+}
+</style>

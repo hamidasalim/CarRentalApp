@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    Formulaire des outils de voiture-->
+    <record id="car_tools_view_form" model="ir.ui.view">
+        <field name="name">car.tools.view.form</field>
+        <field name="model">car.tools</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Accessoires/Outils">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="Nom"/>
+                        </group>
+                        <group>
+                            <field name="price" string="Prix"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--    Vue en liste des outils de voiture-->
+    <record id="car_tools_view_tree" model="ir.ui.view">
+        <field name="name">car.tools.view.tree</field>
+        <field name="model">car.tools</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Accessoires/Outils">
+                <field name="name" string="Nom"/>
+                <field name="price" string="Prix"/>
+            </tree>
+        </field>
+    </record>
+<!--    Action pour les outils de voiture-->
+    <record id="action_fleet_car_tools" model="ir.actions.act_window">
+        <field name="name">Accessoires/Outils</field>
+        <field name="res_model">car.tools</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_car_tools" parent="menu_car_parent" name="Accessoires/Outils"
+              action="action_fleet_car_tools" sequence="3"/>
+</odoo>

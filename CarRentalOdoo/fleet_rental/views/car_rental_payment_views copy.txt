@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+        <!-- Form view for car.rental.payment -->
+        <record id="view_payment_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.form.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='is_internal_transfer']" position="before">
+                    <field name="contract_id" string="Contrat" readonly="1" />
+                    <field name="rent_start_date" string="Date de début" readonly="1" />
+                    <field name="rent_end_date" string="Date de fin" readonly="1" />
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="customer_id" string="Conducteur" readonly="1" />
+                    <field name="vehicle_id" string="Véhicule" readonly="1" />
+                </xpath>
+                <xpath expr="//field[@name='amount']" position="before">
+                    <field name="total_cost" string="Montant total" readonly="1" />
+                    <field name="acompte" string="Acompte" readonly="1" />
+                    <field name="montant_restant" string="Montant restant à payer" readonly="1" />
+                </xpath>
+                <xpath expr="//field[@name='payment_method_line_id']" position="after">
+                    <group attrs="{'invisible': [('payment_method_line_id', '!=', 'Cheque')]}">
+                        <field name="bank_name" string="Banque" />
+                        <field name="cheque_number" string="Numero de chèque" />
+                    </group>
+                    <group attrs="{'invisible': [('payment_method_line_id', '!=', 'Carte')]}">
+                        <field name="card_number" string="Numéro de carte" />
+                        <field name="card_expiry_date" string="Date d'expiration de la carte" />
+                        <field name="card_cvv" string="CVV" />
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+ 
+
+
+        <!-- Tree view extension for account.payment -->
+        <record id="view_payment_tree_inherit" model="ir.ui.view">
+            <field name="name">account.payment.tree.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="contract_id" />
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Form view extension for account.move -->
+        <record id="view_move_form_inherit_car_rental" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.car.rental</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                        <field name="car_rental_contract_id"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Action and menuitem for car rental payments -->
+        <record id="action_car_rental_payment" model="ir.actions.act_window">
+            <field name="name">Car Rental Payments</field>
+            <field name="res_model">car.rental.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('car_rental_payment_view_tree')}),
+                                           (0, 0, {'view_mode': 'form', 'view_id': ref('car_rental_payment_view_form')})]"/>
+        </record>
+
+        <menuitem id="menu_car_rental_payments" parent="menu_car_parent"
+            name="Payments"
+            action="action_car_rental_payment" sequence="2"/>
+            <!-- Action and menuitem for account move invoices -->
+        <record id="action_car_rental_invoices" model="ir.actions.act_window">
+            <field name="name">Car Rental Invoices</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('car_rental_contract_id', '!=', False)]</field>
+        </record>
+
+        <menuitem id="menu_car_rental_invoices" parent="menu_car_parent"
+            name="Invoices"
+            action="action_car_rental_invoices" sequence="3"/>
+    </data>
+</odoo>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<template>
+    <t t-name="CustomDashBoard">
+        <div class="oh_dashboards" style="margin-top: 20px;">
+            <div class="container-fluid o_pj_dashboard">
+                <hr/>
+
+                <!-- Filter Section -->
+                <div class="form-group col-12" style="margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center;">
+                        <input type="date" id="start_date" name="start_date" t-ref="start_date" class="form-control" style="max-width: 200px; margin-right: 10px;"/>
+                        <i class="fa fa-duotone fa-arrow-right" style="margin: 0 10px;"/>
+                        <input type="date" id="end_date" name="end_date" t-ref="end_date" class="form-control" style="max-width: 200px; margin-right: 10px;"/>
+                        <button class="btn btn-primary" t-on-click="onApplyFilter">Filtrer</button>
+                    </div>
+                </div>
+
+                <!-- Modal for Date Warning -->
+                <div class="modal" id="modal_warning" tabindex="-1" role="dialog" t-ref="modal_warning">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Avertissement!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p class="message">La date de début doit être antérieure à la date de fin pour le filtrage</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" t-on-click="closeModal" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meilleurs Clients Section -->
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-12">
+                        <h3 style="text-align:center;">Meilleurs clients</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.top_customers" t-as="customer" t-key="customer.id">
+                                        <tr>
+                                            <td>
+                                                <t t-if="customer.image">
+                                                    <img t-att-src="'data:image/png;base64,' + customer.image" alt="Image" class="img-thumbnail" style="max-width: 50px; margin-right: 10px;"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <i class="fa fa-user text-mauve" style="font-size: 24px; margin-right: 10px;"/>
+                                                </t>
+                                                <span t-esc="customer.name"/>
+                                            </td>
+                                            <td><span t-esc="customer.email"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voitures Disponibles Section -->
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-6">
+                        <div class="chart-container card-shadow" style="height: 528px;">
+                            <h2 class="text-center">Voitures les plus louées</h2>
+                            <div class="graph_canvas bar_canvas" style="height:90%;">
+                                <canvas class="most_rented_cars" t-ref="most_rented_cars_bar"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="card-shadow" style="height: 528px;">
+                            <h2 class="text-center">Voitures disponibles</h2>
+                            <hr/>
+                            <div class="text-color">
+                                <div class="crm_dash_cards row">
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="dashboard-card card-shadow my_lead" style="display:flex; height: auto;">
+                                            <div class="dashboard-card__icon-container bg-mauve-light d-flex justify-content-center align-items-center">
+                                                <i class="fa fa-car text-mauve"/>
+                                            </div>
+                                            <div class="dashboard-card__details">
+                                                <h3><span t-esc="state.available_cars"/></h3>
+                                                <h4>Voitures disponibles</h4>
+                                            </div>
+                                            <div class="dashboard-card__details">
+                                                <h3><span t-esc="state.running_cars"/></h3>
+                                                <h4>Voitures en circulation</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Nom de la voiture</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="state.available_vehicle_details" t-as="available_car" t-key="available_car['available_car']">
+                                            <tr>
+                                                <td class="text-center"><t t-esc="available_car['available_car']"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Véhicule en Circulation et Détails de Contact -->
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-12">
+                        <div class="card-shadow" style="height: 528px;">
+                            <h2 class="text-center">Véhicule en circulation et détails de contact</h2>
+                            <hr/>
+                            <div class="text-color">
+                                <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom de la voiture</th>
+                                            <th>Date de début</th>
+                                            <th>Date de fin</th>
+                                            <th>Nom du client</th>
+                                            <th>Contact du client</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="state.running_vehicle_details" t-as="data" t-key="data.vehicle">
+                                            <tr>
+                                                <td><t t-esc="data['vehicle']"/></td>
+                                                <td><t t-esc="data['start_date']"/></td>
+                                                <td><t t-esc="data['end_date']"/></td>
+                                                <td><t t-esc="data['customer']"/></td>
+                                                <td><t t-if="data['phone']"><t t-esc="data['phone']"/></t></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>
+    </t>
+</template>

@@ -1,0 +1,70 @@
+<odoo>
+    <record id="car_rental_payment_view_form" model="ir.ui.view">
+        <field name="name">car.rental.payment.view.form</field>
+        <field name="model">car.rental.payment</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Payer le contrat">
+                <group>
+                    <field name="contract_id" string="Contrat" readonly="1" />
+                    <field name="rent_start_date" string="Date de début" readonly="1" />
+                    <field name="rent_end_date" string="Date de fin" readonly="1" />
+                    <field name="total_cost" string="Montant total" readonly="1" />
+                    <field name="montant_restant" string="Montant restant à payer" readonly="1" />
+                    <field name="acompte" string="Acompte" readonly="1" />
+                    <field name="tarif_carburant" string="Tarif Carburant" readonly="1" />
+                    <field name="payment_mode" string="Type de paiement" />
+                    <field name="customer_id" string="Conducteur" readonly="1" />
+                    <field name="vehicle_id" string="Véhicule" readonly="1" />
+                    <field name="contract_date" string="Date de paiement" readonly="1" />
+                    <field name="deposit" string="Montant payé" />
+                    <field name="currency_id" string="Devise" />
+                </group>
+                <group invisible="context.get('payment_mode') != 'Virement'">
+                    <field name="bank_account" string="Compte bancaire" />
+                    <field name="bank_name" string="Nom de la banque" />
+                </group>
+                <group invisible="context.get('payment_mode') != 'Carte'">
+                    <field name="card_number" string="Numéro de carte" />
+                    <field name="card_expiry_date" string="Date d'expiration de la carte" />
+                    <field name="card_cvv" string="CVV" />
+                </group>
+                <footer>
+                    <button string="Confirmer" type="object" name="action_confirm_payment"
+                        class="btn-primary" />
+                    <button string="Annuler" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+     <!-- Tree View -->
+     <record id="car_rental_payment_view_tree" model="ir.ui.view">
+        <field name="name">car.rental.payment.tree.view</field>
+        <field name="model">car.rental.payment</field>
+        <field name="arch" type="xml">
+            <tree string="Car Rental Payments">
+                <field name="contract_id" />
+                <field name="customer_id" />
+                <field name="vehicle_id" />
+                <field name="total_cost" />
+                <field name="acompte" />
+                <field name="tarif_carburant" />
+                <field name="deposit" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_car_rental_payment" model="ir.actions.act_window">
+        <field name="name">Car Rental Payments</field>
+        <field name="res_model">car.rental.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                       (0, 0, {'view_mode': 'tree', 'view_id': ref('car_rental_payment_view_tree')}),
+                                       (0, 0, {'view_mode': 'form', 'view_id': ref('car_rental_payment_view_form')})]"/>
+    </record>
+
+    <menuitem id="menu_car_rental_payments" parent="menu_car_parent"
+    name="payments"
+    action="action_car_rental_payment" sequence="2"/>
+</odoo>

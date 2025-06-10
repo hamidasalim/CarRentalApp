@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <!-- Report Action -->
+      <record id="contrat_report_pdf_action" model="ir.actions.report">
+        <field name="name">Contrat Location</field>
+        <field name="model">car.rental.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">fleet_rental.contrat_template_fleet_rent</field>
+        <field name="print_report_name">'Contrat_Location_%s' % (object.name)</field>
+    </record>
+        <template id="contrat_template_fleet_rent">
+          <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+              <t>
+                <div class="article">
+
+                  <style>
+                    .d2 {
+                      padding: 0 0 !important;
+
+                    }
+
+                    div.form-group {
+                      padding: 0;
+                      margin-bottom: 0 !important;
+                    }
+
+                    .d3 .form-group label {
+                      padding: 0;
+                    }
+
+                    .decal {
+                      position: relative;
+                      top:9px;
+
+                    }
+
+                    .vh {
+                      position: relative;
+                      top: 18px;
+                      left: 10px;
+                    }
+
+                    .prix {
+                      position: relative;
+                      top: 18px;
+                      left: 21px;
+                    }
+
+                    .co1 {
+                      position: relative;
+                      top: 15px;
+
+                    }
+
+                    .co1-1 {
+                      position: relative;
+                      top: -9px;
+                      left: -9px;
+                    }
+
+                    .sur3 label {
+                      padding-right: 14px !important;
+                    }
+
+                    span {
+                      font-size: 10px !important;
+                    }
+
+                    .container label {
+                      font-size: 10px !important;
+                      vertical-align: middle !important;
+
+                    }
+
+                    .arabic{
+                      font-size: 10px !important;
+                      vertical-align: middle !important;
+                      font-weight: bold!important;
+                    }
+
+                    .container legend {
+                      font-size: 13px;
+                      font-weight: bold !important;
+                      border-bottom: none;
+                      margin-bottom: 5 px !important;
+                    }
+
+                    .border {
+                      position: relative;
+                      border-right: 1px solid #bfbfbf;
+                      border-bottom: 1px solid #bfbfbf;
+                    }
+                    .border-top{
+                         border-top: 1px solid #bfbfbf;
+                    }
+
+                    .border-left{
+                         border-left: 1px solid #bfbfbf;
+                    }
+
+                    .start {
+                      position: relative;
+                      top: 1px;
+                      left: 5px;
+                    }
+
+                    .mtop{
+                    margin-top:1px !important
+                    }
+
+                    .mbot{
+                   max-height: 250px;
+                   min-height: 250px;
+                    }
+
+                   .mtop2{
+                     position: relative;
+                      top: 40px;
+                    }
+                    .largerColold{
+                      min-width: 53% !important;
+                    }
+                    .add{
+                    width:20.8% !important ;
+                    }
+                    .firstrow{
+                     min-height: 90%;
+                    }
+                    .decalpnt{
+                        position: relative;
+                      top: 9px ;
+                      left:20px ;
+
+                    }
+                    .middle-label{
+                      vertical-align: middle;
+                      <!-- text-align: center; -->
+                    }
+                    .row {
+                      border-right: 1px solid #bfbfbf;
+                      border-left: 1px solid #bfbfbf;
+                      border-top: 1px solid #bfbfbf;
+                      border-bottom: 1px solid #bfbfbf;
+
+                      height:400px;
+                    }
+
+                  span , p , div {
+                    color :white !important ;
+                    background : white !important;
+                  }
+                  </style>
+                  <style>
+                      html *
+                      {
+                          font-size: 10;
+                          font-family: serif;
+                      }
+                  </style>
+                  <div>
+
+                  </div>
+                  <div class="row" style="color:black !important;">
+                      <div class="col-xs-4" style="color:black !important; font-size:17px !important;" >
+                        <h4 style="font-weight:bold!important; font-family: Lemonada; color:black !important;" > <t-esc  t-field="doc.company_id.name" /></h4>
+                        <t t-if="doc.company_id.street"> <b style="font-size:14px; color:black !important;">  Adresse :</b> <t-esc style="font-size:14px; color:black !important;" t-field="doc.company_id.street" />  </t><br/>
+                        <t t-if="doc.company_id.phone"> <b style="font-size:14px; color:black !important;">   TÈl :</b> <t-esc style="font-size:14px; color:black !important;" t-field="doc.company_id.phone" /> </t><br/>
+                        <!-- <t t-if="doc.company_id.email"><b style="font-size:16px; color:black !important;">   <span style="font-size:16px; color:black !important;">E-mail :</b>  <span style="color:black !important;" t-field="doc.company_id.email" /> </t><br/> -->
+                        <t t-if="doc.company_id.vat"><b style="font-size:14px; color:black !important;">   M.F </b>  <t-esc style="font-size:14px; color:black !important;" t-field="doc.company_id.vat" /> </t><br/>
+                        <!-- <t t-if="doc.company_id.website"> <b style="font-size:16px; color:black !important;">   <span style="font-size:16px; color:black !important;">Site Web :</b>  <span style="color:black !important;" t-esc="doc.company_id.website [7:]" />  </t><br/> -->
+                      </div>
+                      <div class="col-xs-4" style="width:33%; color:black !important;">
+                        <br/><br/>
+                        <center>
+                        <h4 style="font-weight:bold!important; font-family: Lemonada; color:black !important;">عقد كـــــراء <br/> CONTRAT DE LOCATION <br/> FACTURE <br/> N° <t-esc  t-field="doc.name" />  </h4>
+
+                        </center>
+                      </div>
+                      <t t-if="doc.company_id.logo">
+                        <img t-att-src="'data:image/png;base64,%s' % doc.company_id.logo"
+                             style="float:right;" 
+                             width="150px" 
+                             height="150px"/>
+                    </t>
+                    <t t-else="">
+                        <p>No Logo Available</p>
+                    </t>
+
+                  </div>
+
+                  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+                  <!-- begin -->
+                  <style>
+                  td{
+                  padding: 2px!important;
+                  }
+                  </style>
+
+                  <div class="row" style="color:black !important;">
+
+                      <div class="col-xs-4" style="color:black !important; font-size:17px !important;" >
+                        <t t-if="doc.second_driver">
+                        <h4>2eme CONDUCTEUR</h4>
+
+                          <b style="font-size:14px; color:black !important;">Nom et Prenom :</b>
+                          <t t-if="doc.second_driver.name">
+                        <t-esc style="color:black !important;font-size:14px;" t-field="doc.second_driver.name" />  </t><br/>
+
+                          <b style="font-size:14px; color:black !important;">   Né le :</b>
+                          <t t-if="doc.second_driver.x_date_of_birth">
+                        <t-esc style="color:black !important;font-size:14px;" t-esc="doc.second_driver.x_date_of_birth.strftime('%d/%m/%Y')" /> </t><br/>
+
+                          <b style="font-size:14px; color:black !important;">   A </b>
+                          <t t-if="doc.second_driver.x_place_of_birth">
+                        <t-esc style="color:black !important;font-size:14px;" t-field="doc.second_driver.x_place_of_birth" /> </t><br/>
+
+                           <b style="font-size:14px; color:black !important;">   Adresse :</b>
+                           <t t-if="doc.second_driver.street">
+                        <t-esc style="color:black !important;font-size:14px;" t-esc="doc.second_driver.street" />  </t><br/>
+
+                           <b style="font-size:14px; color:black !important;">   Tél :</b>
+                           <t t-if="doc.second_driver.mobile">
+                        <t-esc style="color:black !important;font-size:14px;" t-esc="doc.second_driver.mobile" />  </t><br/>
+
+                        <b style="font-size:14px; color:black !important;">   Pièce Ident. (CIN) N° :</b>
+                        <t t-if="doc.second_driver.cin_number">
+                     <t-esc style="color:black !important;font-size:14px;" t-esc="doc.second_driver.cin_number" />  </t><br/>
+
+                          <b style="font-size:14px; color:black !important;">   Délivré le</b>
+                          <t t-if="doc.second_driver.x_cin_issue_date">
+                        <t-esc style="color:black !important;font-size:14px;" t-esc="doc.second_driver.x_cin_issue_date.strftime('%d/%m/%Y')" />  </t><br/>
+
+
+                          <b style="font-size:14px; color:black !important;">   Permis Cond. N° : </b>
+                          <t t-if="doc.second_driver.driver_license_number">
+                        <t-esc style="color:black !important;font-size:14px;" t-esc="doc.second_driver.driver_license_number" />  </t><br/>
+
+                           <b style="font-size:14px; color:black !important;">   Délivré le</b>
+                           <t t-if="doc.second_driver.x_license_issue_date">
+                        <t-esc style="color:black !important;font-size:14px;" t-esc="doc.second_driver.x_license_issue_date.strftime('%d/%m/%Y')" />  </t><br/>
+
+                      </t>
+                      <t t-else ="">
+                        <h4>2eme CONDUCTEUR</h4>
+
+                          <b style="font-size:14px; color:black !important;">Nom et Prenom :</b>
+                        ......................... <br/>
+
+                          <b style="font-size:14px; color:black !important;">   Né le :</b>
+                        ......................... <br/>
+
+                          <b style="font-size:14px; color:black !important;">   A </b>
+                        ......................... <br/>
+
+                           <b style="font-size:14px; color:black !important;">   Adresse :</b>
+                        .........................  <br/>
+
+                           <b style="font-size:14px; color:black !important;">   Tél :</b>
+                        ......................... <br/>
+
+                        <b style="font-size:14px; color:black !important;">   Pièce Ident. (CIN) N° :</b>
+                     ........  <br/>
+
+                          <b style="font-size:14px; color:black !important;">   Délivré le</b>
+                        .........................  <br/>
+
+                          <b style="font-size:14px; color:black !important;">   Permis Cond. N° : </b>
+                        ........  <br/>
+
+                           <b style="font-size:14px; color:black !important;">   Délivré le</b>
+                        .........................  <br/>
+
+
+                      </t>
+                      </div>
+                      <div class="col-xs-2" style="color:black !important; text-align: right !important; font-size:17px !important;" >
+                        <h4> السائق الثاني</h4>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> الاسم , اللقب </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> تاريخ الولادة </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> مكانها </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> العنوان </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> الهاتف </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> ب.ت.و عدد </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> الصادرة في </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> ر. سياقة عدد </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> لصادرة في  </b><br/>
+                      </div>
+                      <div class="col-xs-4" style="color:black !important; font-size:17px !important;" >
+                        <h4>1er CONDUCTEUR</h4>
+                        <b style="font-size:14px; color:black !important;">Nom et Prenom :</b>
+                        <t t-if="doc.customer_id.name">
+                      <t-esc style="color:black !important;font-size:14px;" t-field="doc.customer_id.name" />  </t><br/>
+
+
+
+                        <b style="font-size:14px; color:black !important;">   Né le :</b>
+                        <t t-if="doc.customer_id.x_date_of_birth">
+                      <t-esc style="color:black !important;font-size:14px;" t-esc="doc.customer_id.x_date_of_birth.strftime('%d/%m/%Y')" /> </t><br/>
+
+                        <b style="font-size:14px; color:black !important;">   A </b>
+                        <t t-if="doc.customer_id.x_place_of_birth">
+                      <t-esc style="color:black !important;font-size:14px;" t-field="doc.customer_id.x_place_of_birth" /> </t><br/>
+
+                         <b style="font-size:14px; color:black !important;">   Adresse :</b>
+                         <t t-if="doc.customer_id.street">
+                      <t-esc style="color:black !important;font-size:14px;" t-esc="doc.customer_id.street" />  </t><br/>
+
+                         <b style="font-size:14px; color:black !important;">   Tél :</b>
+                         <t t-if="doc.customer_id.mobile">
+                      <t-esc style="color:black !important;font-size:14px;" t-esc="doc.customer_id.mobile" />  </t><br/>
+
+                         <b style="font-size:14px; color:black !important;">   Pièce Ident. (CIN) N° :</b>
+                         <t t-if="doc.customer_id.cin_number">
+                      <t-esc style="color:black !important;font-size:14px;" t-esc="doc.customer_id.cin_number" />  </t><br/>
+
+                        <b style="font-size:14px; color:black !important;">   Délivré le</b>
+                        <t t-if="doc.customer_id.x_cin_issue_date">
+                      <t-esc style="color:black !important;font-size:14px;" t-esc="doc.customer_id.x_cin_issue_date.strftime('%d/%m/%Y')" />  </t><br/>
+
+
+                        <b style="font-size:14px; color:black !important;">   Permis Cond. N° : </b>
+                        <t t-if="doc.customer_id.driver_license_number">
+                      <t-esc style="color:black !important;font-size:14px;" t-esc="doc.customer_id.driver_license_number" />  </t><br/>
+
+                         <b style="font-size:14px; color:black !important;">   Délivré le</b>
+                         <t t-if="doc.customer_id.x_license_issue_date">
+                      <t-esc style="color:black !important;font-size:14px;" t-esc="doc.customer_id.x_license_issue_date.strftime('%d/%m/%Y')" />  </t><br/>
+
+
+                    </div>
+                      <div class="col-xs-2" style="width:10% color:black !important; text-align: right !important; font-size:17px !important;" >
+                        <h4> السائق الأول</h4>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;">  اللقب, الاسم </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> تاريخ الولادة </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> مكانها </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> العنوان </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> الهاتف </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> ب.ت.و عدد </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> الصادرة في </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> ر. سياقة عدد </b><br/>
+                        <b style="font-size:14px; color:black !important; text-align: right !important;"> لصادرة في  </b><br/>
+                      </div>
+
+                  </div>
+                  <div>
+                    <center>
+                    <h5 style="font-weight:bold!important; font-family: Lemonada; color:black !important;">
+                      Attention : Age exigé 21 ans, permis délivré depuis au moins 2 ans avec franchise de 500 dinars
+                      <br/>
+                       تحذير : يشترط عمر 21 سنة و تكون رخصة السياقة صادرة قبل سنتين على الأقل مع ضمان بقيمة 500 دينار
+                       <br/>
+                     </h5>
+                    </center>
+                  </div>
+
+                  <br/>
+                  <div class="row" style="color:black !important;">
+
+                      <div class="col-xs-3" style="color:black !important;" >
+                      <b>  <center style="color:black !important;font-size:16px; font-weight: bold !important;">Marque</center></b>
+                      </div>
+                      <div class="col-xs-3" style="color:black !important;" >
+                          <t t-if="doc.second_vehicle_id">
+                        <t-esc style="color:black !important;font-size:16px;" t-esc="'%s %s' % (doc.second_vehicle_id.model_id.brand_id.name , doc.second_vehicle_id.model_id.name )" />
+                      </t>
+                      <t t-else ="">
+                        <t-esc style="color:black !important;font-size:16px;" t-esc="'%s %s' % (doc.vehicle_id.model_id.brand_id.name , doc.vehicle_id.model_id.name )" />
+                      </t>
+                      </div>
+                      <div class="col-xs-3" style="color:black !important;" >
+                      <b>  <center style="color:black !important;font-size:17px; font-weight: bold !important;">Matricule</center> </b>
+                      </div>
+                      <div class="col-xs-3" style="color:black !important;" >
+                        <t t-if="doc.second_vehicle_id">
+                        <t-esc style="color:black !important;font-size:16px;" t-esc="doc.second_vehicle_id.license_plate" />
+                      </t>
+                        <t t-else ="">
+                          <t-esc style="color:black !important;font-size:16px;" t-esc="doc.vehicle_id.license_plate" />
+                        </t>
+                      </div>
+                  </div>
+                  <div class="row" style="color:black !important;">
+                    <table style="width:100%;">
+                      <tr style="color:black; font-size:10px;">
+                          <td style="width: 8%; font-weight:bold; border:1px solid #231f20;">
+                            Date de départ <br/>
+                            Lieu <br/>
+                            Heure
+                          </td>
+                          <td style="width: 17%; text-align:center; vertical-align: middle;border:1px solid #231f20; color:black;">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_start_date.strftime('%d/%m/%Y')" /><br/>
+                            Sousse<br/>
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_start_date.strftime('%H:%M')" />
+                          </td>
+                          <td style="width: 8%; font-weight:bold; border:1px solid #231f20;">
+                            Date de retour <br/>
+                            Lieu <br/>
+                            Heure
+                          </td>
+                          <td style="width: 17%; text-align:center; vertical-align: middle;border:1px solid #231f20; color:black;">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_end_date.strftime('%d/%m/%Y')" /><br/>
+                            Sousse<br/>
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_end_date.strftime('%H:%M')" />
+                          </td>
+                          <td style="width: 8%; font-weight:bold; border:1px solid #231f20;">
+                            Prolongation <br/>
+                            Lieu <br/>
+                            Heure
+                          </td>
+                          <td style="width: 17%; text-align:center; vertical-align: middle;border:1px solid #231f20; color:black;">
+                            <t t-if="doc.new_rent_end_date">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.new_rent_end_date.strftime('%d/%m/%Y')" />
+                          </t><br/>
+                            <t t-if="doc.new_rent_end_date">
+                            Sousse
+                          </t>
+                            <br/>
+                            <t t-if="doc.new_rent_end_date">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.new_rent_end_date.strftime('%H:%M')" />
+                          </t>
+                          </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <table style="width:100%;">
+                    <tr style="color:black; font-size:10px;">
+                        <td style="width: 10%; font-weight:bold; border:0px !important;">
+                        KM Départ
+                        </td>
+                        <td style="width: 10%; text-align:center; vertical-align: middle; border:0px !important;">
+                          <t-esc style="color:black !important;font-size:14px;" t-esc="doc.old_odometer" />
+                        </td>
+                        <td style="width: 10%; font-weight:bold; border:0px !important;">
+                        KM Retour
+                        </td>
+                        <td style="width: 10%; text-align:center; vertical-align: middle; border:0px !important;">
+                          ..........
+                        </td>
+                        <td style="width: 10%; font-weight:bold; border:0px !important;">
+                        KM Parcouru
+                        </td>
+                        <td style="width: 10%; text-align:center; vertical-align: middle; border:0px !important;">
+                          ..........
+                        </td>
+                        <td style="width: 10%; font-weight:bold; border:0px !important;">
+                        KM Inclus
+                        </td>
+                        <td style="width: 10%; text-align:center; vertical-align: middle; border:0px !important;">
+                          ..........
+                        </td>
+                        <td style="width: 10%; font-weight:bold; border:0px !important;">
+                        KM Facturés
+                        </td>
+                        <td style="width: 10%; text-align:center; vertical-align: middle; border:0px !important;">
+                          ..........
+                        </td>
+                    </tr>
+                  </table>
+                  <div class="row" style="color:black !important;">
+
+                      <div class="col-xs-5" style="color:black !important;" >
+                      <b>  <center style="color:black !important;font-size:16px; font-weight: bold !important;">Changement Voiture / Marque</center></b>
+                      </div>
+                      <div class="col-xs-3" style="color:black !important;" >
+                        <t t-if="doc.second_vehicle_id">
+                        <t-esc style="color:black !important;font-size:16px;" t-esc="'%s %s' % (doc.vehicle_id.model_id.brand_id.name , doc.vehicle_id.model_id.name )" />
+                      </t>
+                      </div>
+                      <div class="col-xs-2" style="color:black !important;" >
+                      <b>  <center style="color:black !important;font-size:17px; font-weight: bold !important;">Matricule</center> </b>
+                      </div>
+                      <div class="col-xs-2" style="color:black !important;" >
+                        <t t-if="doc.second_vehicle_id">
+                        <t-esc style="color:black !important;font-size:16px;" t-esc="doc.vehicle_id.license_plate" />
+                      </t>
+                      </div>
+                  </div>
+                  <div class="row" style="color:black !important;">
+                    <table style="width:100%;">
+                      <tr style="color:black; font-size:10px;">
+                          <td style="width: 8%; font-weight:bold; border:1px solid #231f20;">
+                            Date de départ <br/>
+                            Lieu <br/>
+                            Heure
+                          </td>
+                          <td style="width: 17%; text-align:center; vertical-align: middle;border:1px solid #231f20; color:black;">
+                            <t t-if="doc.second_vehicle_id">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_start_date.strftime('%d/%m/%Y')" />
+                          </t>
+                            <br/>
+                            <t t-if="doc.second_vehicle_id">
+                            Sousse
+                            </t>
+                            <br/>
+                            <t t-if="doc.second_vehicle_id">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_start_date.strftime('%H:%M')" />
+                          </t>
+                          </td>
+                          <td style="width: 8%; font-weight:bold; border:1px solid #231f20;">
+                            Date de retour <br/>
+                            Lieu <br/>
+                            Heure
+                          </td>
+                          <td style="width: 17%; text-align:center; vertical-align: middle;border:1px solid #231f20; color:black;">
+                            <t t-if="doc.second_vehicle_id">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_end_date.strftime('%d/%m/%Y')" />
+                          </t>
+                            <br/>
+                              <t t-if="doc.second_vehicle_id">
+                                Sousse
+                              </t>
+                            <br/>
+                            <t t-if="doc.second_vehicle_id">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.rent_end_date.strftime('%H:%M')" />
+                          </t>
+                          </td>
+                          <td style="width: 8%; font-weight:bold; border:1px solid #231f20;">
+                            Prolongation <br/>
+                            Lieu <br/>
+                            Heure
+                          </td>
+                          <td style="width: 17%; text-align:center; vertical-align: middle;border:1px solid #231f20; color:black;">
+                            <t t-if="doc.second_vehicle_id">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.new_rent_end_date.strftime('%d/%m/%Y')" />
+                          </t>
+                            <br/>
+
+                            <t t-if="doc.new_rent_end_date">
+                            Sousse
+                          </t>
+                            <br/>
+                            <t t-if="doc.second_vehicle_id">
+                            <t-esc style="color:black !important;font-size:14px;" t-esc="doc.new_rent_end_date.strftime('%H:%M')" />
+                          </t>
+                          </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <br/>
+                  <div style="color:black !important;font-size:17px; font-weight: bold !important;">Carburant
+                  </div>
+                  <div class="row" style="color:black !important;">
+                    <table style="width:100%;">
+                      <tr style="color:black; font-size:12px; text-align:center !important;">
+                          <td style="width: 20%; font-weight:bold; border:0px !important; ">
+                            Essence super Plomb
+                          </td>
+                          <td style="width: 4%; font-weight:bold; border:1px solid #231f20;">
+
+                          </td>
+                          <td style="width: 19%; font-weight:bold; border:0px !important;">
+                            Etat du Compteur :
+                          </td>
+                          <td style="width: 10%; font-weight:bold; border:0px !important;">
+                            1/4
+                          </td>
+                          <td style="width: 4%; font-weight:bold; border:1px solid #231f20;">
+                          <t t-if="doc.fuel_level == '1/4'">
+                              X
+                            </t>
+                          </td>
+                          <td style="width: 10%; font-weight:bold; border:0px !important;">
+                            1/2
+                          </td>
+                          <td style="width: 4%; font-weight:bold; border:1px solid #231f20;">
+                            <t t-if="doc.fuel_level == '1/2'">
+                                X
+                              </t>
+                          </td>
+                          <td style="width: 10%; font-weight:bold; border:0px !important;">
+                            3/4
+                          </td>
+                          <td style="width: 4%; font-weight:bold; border:1px solid #231f20;">
+                            <t t-if="doc.fuel_level == '3/4'">
+                                X
+                              </t>
+                          </td>
+                          <td style="width: 11%; font-weight:bold; border:0px !important;">
+                            Plein
+                          </td>
+                          <td style="width: 4%; font-weight:bold; border:1px solid #231f20;">
+                            <t t-if="doc.fuel_level == 'Plein'">
+                                X
+                              </t>
+                          </td>
+                      </tr>
+                        <br/>
+                    </table>
+                    <br/>
+                  </div>
+                  <br/>
+                  <div class="row" style="color:black !important;">
+                      <div class="col-xs-3" style="color:black !important; "  >
+                        <br/>
+                        <!-- <img t-att-src="'/fleet_rent/static/src/car.png'"/> -->
+                        <img t-att-src="'/fleet_rental/static/src/car.png'" width="200px" height="120px" />
+                      </div>
+                      <div class="col-xs-9" style="color:black !important; border: 1px solid black !important;" >
+                        <table style="width:100%; ">
+                          <tr >
+                            <th style="border:0px !important; width: 25%;  ">
+                              <u>Caution</u>
+                            </th>
+
+                            <th style="border:0px !important;  width: 24%; text-align: right !important;">
+                            <u>  الضمان</u>
+                            </th>
+                            <th style="border:0px !important;  width: 2%;">
+
+                            </th>
+                            <th style="border:0px !important;  width: 25%;">
+                            <u>  Mode de paiement </u>
+                            </th>
+                            <th style="border:0px !important;  width: 24%; text-align: right !important;">
+                            <u>  طريقة الدفع </u>
+                            </th>
+                          </tr>
+
+
+                          
+                        </table>
+                          <table style="width:100%; ">
+                        <tr style="color:black; font-size:10px; ">
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">                          
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important; ">
+                              Espèce
+                            </td>
+                            <td style="width: 19%; font-weight:bold; border:0px !important; ">
+
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important;text-align: right !important; ">
+                              النقد
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              
+                            </td>
+                            <td style="width: 2%; font-weight:bold; border:0px !important; ">
+
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              <t t-if="doc.payment_ids.journal_id == 'Espèces'">
+                                  X
+                                </t>
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important; ">
+                              Espèce
+                            </td>
+                            <td style="width: 19%; font-weight:bold; border:0px !important; ">
+
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important;text-align: right !important; ">
+                              النقد
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              <t t-if="doc.payment_ids.journal_id == 'Espèces'">
+                                  X
+                                </t>
+                            </td>
+                        </tr>
+                      </table>
+                      <br/>
+                        <!-- <tr>
+                          <td colspan="11" style="width: 12%; font-weight:bold; border:0px !important;">
+                          </td>
+                        </tr> -->
+                        <table style="width:100%; ">
+                        <tr style="color:black; font-size:10px;">
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              
+                            </td>
+                            <td  style="width: 25%; font-weight:bold; border:0px !important; ">
+                              Carte Bancaire
+                            </td>
+                            <td  style="width: 6%; font-weight:bold; border:0px !important; ">
+
+                            </td>
+
+                            <td style="width: 12%; font-weight:bold; border:0px !important; text-align: right !important;">
+                              بطاقة بنكية
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              
+                            </td>
+                            <td style="width: 2%; font-weight:bold; border:0px !important; ">
+
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              <t t-if="doc.payment_ids.journal_id == 'Carte'">
+                                  X
+                                </t>
+                            </td>
+                            <td style="width: 25%; font-weight:bold; border:0px !important; ">
+                              Carte Bancaire
+                            </td>
+                            <td style="width: 6%; font-weight:bold; border:0px !important; ">
+
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important; text-align: right !important;">
+                              بطاقة بنكية
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              <t t-if="doc.payment_ids.journal_id == 'Carte'">
+                                  X
+                                </t>
+                            </td>
+                        </tr>
+                      </table>
+                      <br/>
+                        <!-- <tr>
+                          <td colspan="11" style="width: 12%; font-weight:bold; border:0px !important;">
+                          </td>
+                        </tr> -->
+                        <table style="width:100%; ">
+                        <tr style="color:black; font-size:10px;">
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important; ">
+                              Chèque N°
+                            </td>
+                            <td style="width: 19%; font-weight:bold; border:0px !important; ">
+                              
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important; text-align: right !important;">
+                              صك
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              
+                            </td>
+                            <td style="width: 2%; font-weight:bold; border:0px !important; ">
+
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              <t t-if="doc.payment_ids.journal_id == 'Cheque'">
+                                  X
+                                </t>
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important; ">
+                              Chèque N°
+                            </td>
+                            <td style="width: 19%; font-weight:bold; border:0px !important; text-align:center ">
+                              <t t-if="doc.payment_ids.journal_id == 'Cheque'">
+                                  <t-esc style="color:black !important;font-size:16px;" t-esc="doc.cheque_number" />
+                                </t>
+
+                            </td>
+                            <td style="width: 12%; font-weight:bold; border:0px !important; text-align: right !important;">
+                              صك
+                            </td>
+                            <td style="width: 3%; font-weight:bold; border:1px solid black !important; ">
+                              <t t-if="doc.payment_ids.journal_id == 'Cheque'">
+                                  X
+                                </t>
+                            </td>
+                        </tr>
+                        </table>
+                      </div>
+                  </div>
+                <br/>
+                  <div class="row" style="color:black !important;">
+
+                      <div class="col-xs-4" style="color:black !important; font-size:10px;"  >
+                        J'ai pris connaissance de l'état du véhicule je m'engage à vérifier que son état est conforme au descripitif ci-dessus mentionné je reconnait avoir pris connaissance du contrat de location et de ses conditions générale et que l'assurance contractée par le loueur est une assurance aux tiers.
+                        <br/>
+                        عاينت السيارة المؤجرة وأصادق على حالتها كما أصادق على الشروط المذكورة خلف العقــد
+                      </div>
+                      <div class="col-xs-4" style="color:black !important; font-size:10px; ">
+                        Par sa signature au bas du présent, le client autorise le loueur à utiliser sa carte bancaire pour débiter son compte du montant des dommages causés au véhicule loué ou des frais encourus par le loueur résultant d'une unfraction au code de la route.
+                        <br/>
+                        يرخص المؤجر لشركة براديس باستعمال بطاقته البنكية لسحب مصاريف اصلاح السيارة وخلاص المخالفات المرورية
+                      </div>
+                      <div class="col-xs-4" style="color:black !important; "  >
+                        <table style="width:100%; ">
+                          <tr style="color:black; font-size:10px;">
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important; ">
+                                Montant HT
+                              </td>
+                              <td style="width: 40%; font-weight:bold; border:1px solid black !important; text-align: center !important;">
+                                <t-esc  t-esc= " '%.3f' % (doc.total_cost)" /> DT
+                              </td>
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important;text-align: right !important; ">
+                                المبلغ الخالي من الأداءات
+                              </td>
+                          </tr>
+                          <tr style="color:black; font-size:10px;">
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important; ">
+                                TVA
+                              </td>
+                              <td style="width: 40%; font-weight:bold; border:1px solid black !important; text-align: center !important;">
+                                <t-esc  t-esc= " '%.3f' % (doc.total_cost * 0.19)" />  DT
+                              </td>
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important; text-align: right !important;">
+                                القيمة المضافة
+                              </td>
+                          </tr>
+                          <tr style="color:black; font-size:10px;">
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important; ">
+                                Timbre
+                              </td>
+                              <td style="width: 40%; font-weight:bold; border:1px solid black !important; text-align: center !important; ">
+                                1,000 DT
+                              </td>
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important; text-align: right !important;">
+                                الطابع الجبائي
+                              </td>
+                          </tr>
+                          <tr style="color:black; font-size:10px;">
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important; ">
+                                Total TTC
+                              </td>
+                              <td style="width: 40%; font-weight:bold; border:1px solid black !important; text-align: center !important; " >
+                                 <t-esc  t-esc= " '%.3f' % (doc.payment_ids.total_amount)" /> DT
+                              </td>
+                              <td style="width: 30%; font-weight:bold; border:1px solid black !important; text-align: right !important; ">
+                                المبلغ الاجمالي
+                              </td>
+                          </tr>
+                      </table>
+
+
+                      </div>
+                  </div>
+
+                  <div class="row" style="color:black !important;">
+
+                      <!-- <div class="col-xs-4" style="color:black !important; font-size:10px; ">
+                        عاينت السيارة المؤجرة وأصادق على حالتها كما أصادق على الشروط المذكورة خلف العقــد
+                      </div>
+                      <div class="col-xs-4" style="color:black !important; font-size:10px;">
+                        يرخص المؤجر لشركة براديس باستعمال بطاقته البنكية لسحب مصاريف اصلاح السيارة وخلاص المخالفات المرورية
+                      </div> -->
+                      <div class="col-xs-8" style="color:black !important; font-size:10px; ">
+                        <br/>
+                       J'ai lu et accepté les conditions ci-contre et au verso . اطلعت و صادقت على الفصول المذكورة خلف
+                      </div>
+
+                      <div class="col-xs-4" style="color:black !important; border: 1px solid black !important; font-size:12px"  >
+                        <b>   Contrat Préparé par </b> : 
+                          <br/>
+                          <b>  A </b> Sousse <b>  Le,</b>  
+                           <br/>
+                        <!-- <table style="width:100%; ">
+                        <tr style="color:black; font-size:10px;">
+                            <td style="width: 55%; font-weight:bold; border:0px solid black !important; ">
+                              Contrat Préparé par
+                            </td>
+                            <td style="width: 5%; font-weight:bold; border:0px solid black !important; ">
+                            </td>
+                            <td style="width: 5%; font-weight:bold; border:0px solid black !important; ">
+                            </td>
+                            <td style="width: 35%; font-weight:bold; border:0px solid black !important; ">
+                            </td>
+                        </tr>
+                        <tr style="color:black; font-size:10px;">
+                            <td style="width: 7%; font-weight:bold; border:0px solid black !important; ">
+                              A
+                            </td>
+                            <td style="width: 38%; font-weight:bold; border:0px solid black !important; ">
+
+                            </td>
+                            <td style="width: 7%; font-weight:bold; border:0px solid black !important; ">
+                              Le,
+                            </td>
+                            <td style="width: 48%; font-weight:bold; border:0px solid black !important; ">
+
+                            </td>
+                        </tr>
+                      </table> -->
+                      </div>
+                  </div>
+                  <!-- <div class="row" style="color:black !important; font-size:10px;">
+                    J'ai lu et accepté les conditions ci-contre et au verso . اطلعت و صادقت على الفصول المذكورة خلف
+                    <br/>
+                  </div> -->
+                  <br/>
+                  <div class="row" style="color:black !important;">
+                      <table style="width:100%; ">
+                        <tr style="color:black; font-size:10px;">
+                            <td style="width: 33%; font-weight:bold; border:1px solid black !important; text-align: center !important;">
+                            <u>  Signature du conducteur 2  إمضاء السائق الثاني </u>
+                            </td>
+                            <td style="width: 33%; font-weight:bold; border:1px solid black !important; text-align: center !important; ">
+                              <u> Signature du conducteur 1  إمضاء السائق الأول </u>
+                            </td>
+                            <td style="width: 34%; font-weight:bold; border:1px solid black !important; text-align: center !important;">
+                              <u>  Cachet / Signature  إمضاء  </u>
+                            </td>
+                        </tr>
+                        <tr style="color:black; font-size:10px;">
+                            <td style="width: 33%; font-weight:bold; border:1px solid black !important; ">
+                              <br/><br/><br/><br/><br/><br/><br/><br/>
+                            </td>
+                            <td style="width: 33%; font-weight:bold; border:1px solid black !important; ">
+                              <br/><br/><br/><br/><br/><br/><br/><br/>
+                            </td>
+                            <td style="width: 34%; font-weight:bold; border:1px solid black !important; ">
+                              <br/><br/><br/><br/><br/><br/><br/><br/>
+                            </td>
+                        </tr>
+                      </table>
+                  </div>
+                </div>
+              </t>
+            </t>
+          </t>
+        </template>
+
+  
+
+
+
+
+</odoo>

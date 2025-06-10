@@ -1,0 +1,39 @@
+from odoo import models, fields, api
+from odoo.exceptions import UserError
+
+class CarRentalPayment(models.Model):
+    _name = 'car.rental.payment'
+    _description = 'Car Rental Payment'
+    
+#inherit mel facturation
+    contract_id = fields.Many2one('car.rental.contract', string='Contract', required=True, ondelete='cascade')
+    total_cost = fields.Float(string="Montant à payer", related='contract_id.total_cost', readonly=True)
+    payment_mode = fields.Selection([('Espèce', 'Espèce'), ('Carte', 'Carte'), ('Virement', 'Virement')], string="Type de paiement", required=True)
+    customer_id = fields.Many2one('res.partner', string="Conducteur", related='contract_id.customer_id', readonly=True)
+    vehicle_id = fields.Many2one('fleet.vehicle', string="Véhicule", related='contract_id.vehicle_id', readonly=True)
+    contract_date = fields.Date(string="Date de paiement", default=fields.Date.context_today, readonly=True)
+    deposit = fields.Float(string="Montant payé", required=True)
+    currency_id = fields.Many2one('res.currency', string="Devise", required=True)
+    bank_account = fields.Char(string="Compte bancaire")
+    bank_name = fields.Char(string="Nom de la banque")
+    card_number = fields.Char(string="Numéro de carte")
+    card_expiry_date = fields.Date(string="Date d'expiration de la carte")
+    card_cvv = fields.Char(string="CVV")
+
+    rent_start_date = fields.Datetime(string="Date de début",related='contract_id.rent_start_date' ,required=True)
+    rent_end_date = fields.Datetime(string="Date d'expiration",related='contract_id.rent_end_date' ,required=True)
+
+        # Add the new fields here
+    acompte = fields.Float(string="Acompte", related='contract_id.acompte', readonly=True)
+    tarif_carburant = fields.Float(string="Tarif Carburant", related='contract_id.tarif_carburant', readonly=True)
+
+    montant_restant = fields.Float(string="Montant restant à payer", compute="_compute_montant_restant", store=True)
+
+
+    def action_confirm_payment(self):
+        if self.deposit != self.montant_restant:
+            raise UserError("Le montant payé doit être égal au montant à payer.")
+        
+        self.contract_id.write({'is_paid': True,'state': 'running'})
+        return {'type': 'ir.actions.act_window_close'}
+    

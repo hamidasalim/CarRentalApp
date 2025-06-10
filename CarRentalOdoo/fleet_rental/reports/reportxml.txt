@@ -1,0 +1,55 @@
+<odoo>
+    <record id="view_fleet_rental_report_tree" model="ir.ui.view">
+        <field name="name">fleet.rental.report.tree</field>
+        <field name="model">report.fleet.rental</field>
+        <field name="arch" type="xml">
+            <tree string="Fleet Rental Analysis">
+                <field name="name" string="Nom"/>
+                <field name="company_id" string="Client"/>
+                <field name="customer_id" string="Conducteur"/>
+                <field name="second_driver" string="2ème Conducteur"/>
+                <field name="vehicle_id" string="Véhicule"/>
+                <field name="car_brand" string="Marque de voiture"/>
+                <field name="car_color" string="Couleur de la voiture"/>
+                <field name="cost" string="Coût de location"/>
+                <field name="rent_start_date" string="Date de début de location"/>
+                <field name="rent_end_date" string="Date de fin de location"/>
+                <field name="state" string="État"/>
+                <field name="total_days" string="Total Jours"/>
+                <field name="total_cost" string="Coût Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_fleet_rental_report_search" model="ir.ui.view">
+        <field name="name">fleet.rental.report.search</field>
+        <field name="model">report.fleet.rental</field>
+        <field name="arch" type="xml">
+            <search string="Fleet Rental Analysis">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="customer_id"/>
+                <field name="second_driver"/>
+                <field name="vehicle_id"/>
+                <field name="car_brand"/>
+                <field name="car_color"/>
+                <field name="rent_start_date"/>
+                <field name="rent_end_date"/>
+                <field name="state"/>
+                <field name="total_days"/>
+                <field name="total_cost"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_fleet_rental_report" model="ir.actions.act_window">
+        <field name="name">Fleet Rental Analysis</field>
+        <field name="res_model">report.fleet.rental</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_fleet_rental_report_tree"/>
+        <field name="search_view_id" ref="view_fleet_rental_report_search"/>
+    </record>
+
+    <menuitem id="fleet_rental_analysis_menu" name="Fleet Rental Analysis"
+              parent="fleet.menu_root" action="action_fleet_rental_report"/>
+</odoo>

@@ -1,0 +1,37 @@
+<odoo>
+    <!-- Empty record for the form view -->
+    <record id="fleet_rental_report_view_form" model="ir.ui.view">
+        <field name="name">fleet.rental.report.view.form</field>
+        <field name="model">report.fleet.rental</field>
+        <field name="arch" type="xml">
+            <form string="Fleet Rental Report">
+                <group>
+                    <field name="dummy_field"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Empty record for the tree view -->
+    <record id="fleet_rental_report_view_tree" model="ir.ui.view">
+        <field name="name">fleet.rental.report.view.tree</field>
+        <field name="model">report.fleet.rental</field>
+        <field name="arch" type="xml">
+            <tree string="Fleet Rental Report">
+                <field name="dummy_field"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Empty action definition -->
+    <record id="action_fleet_rental_report" model="ir.actions.act_window">
+        <field name="name">Fleet Rental Report</field>
+        <field name="res_model">report.fleet.rental</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="fleet_rental_report_view_tree"/>
+    </record>
+
+    <!-- Empty menu item -->
+    <!-- <menuitem id="menu_fleet_rental_report" name="Fleet Rental Report"
+              parent="fleet.menu_root" action="action_fleet_rental_report"/> -->
+</odoo>

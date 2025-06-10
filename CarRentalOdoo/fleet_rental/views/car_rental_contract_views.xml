@@ -1,0 +1,204 @@
+<odoo>
+    <record id="car_rental_contract_view_form" model="ir.ui.view">
+        <field name="name">car.rental.contract.view.form</field>
+        <field name="model">car.rental.contract</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Contrat de voiture">
+                <header>
+                    <button name="action_confirm" string="Confirmer" type="object"
+                        invisible="state != 'draft'"
+                        class="oe_highlight"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                        invisible="state not in ['draft', 'reserved']"
+                        class="oe_highlight"/>
+                    <button name="open_payment_modal" string="Payer" type="object"
+                        invisible="state == 'done' "
+                        class="oe_highlight"/>
+                    <button name="action_done" string="Terminer" type="object"
+                        invisible="state != 'running'"
+                        class="oe_highlight"/>
+                    <button name="action_extend_rent" string="Prolonger la location" type="object"
+                        invisible="state != 'running'"
+                        class="oe_highlight"/>
+                        <button name="action_change_vehicle" string="Changer de Véhicule" type="object"
+                    class="oe_highlight"
+                    invisible="state == 'draft'"/>
+                    <button name="print_contract"
+        string="Imprimer Contrat"
+        type="object"
+        class="oe_highlight"
+        icon="fa-print"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,reserved,running,done,cancel"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="extended_days" readonly="1"/>
+                        <field name="extra_cost" readonly="1"/>
+                    </group>
+                    <group cospan="2">
+                        <field name="old_odometer" string="Ancien compteur kilométrique" readonly="1"
+                            invisible="state not in ['done']" colspan="1"/>
+                        <field name="new_odometer" string="Nouveau compteur kilométrique"
+                            invisible="state not in ['running']" colspan="1"/>
+                            <field name="new_odometer" string="Nouveau compteur kilométrique"
+                            invisible="state not in ['done']" colspan="1" readonly="1"/>
+                    </group>
+                    <group>
+                        <group string="Informations sur le véhicule">
+                            <field name="company_id" string="Client"/>
+                            <field name="customer_id" string="Conducteur" domain="[('is_conducteur', '=', True)]"/>
+                            <field name="second_driver" string="2ème Conducteur" domain="[('is_conducteur', '=', True)]"/>
+                            <field name="vehicle_id" string="Véhicule"/>
+                            <field name="last_odometer" string="Dernier compteur kilométrique"
+                                readonly="1"/>
+                            <field name="fuel_level" string="Niveau Carburant"/>
+                        </group>
+                    </group>
+                    <group string="Informations sur Location">
+                        <group>
+                            <field name="rent_start_date" string="Date de début"/>
+                            <field name="rent_end_date" string="Date d'expiration"/>
+                            <field name="tarif" string="Tarif" readonly="1"/>
+                            <field name="rent_type" string="Type de location"/>
+                        </group>
+                        <group>
+                            <field name="total_days" string="Total Jours" readonly="1"/>
+                            <field name="total_cost" string="Total Location" readonly="1"/>
+                            <field name="tarif_carburant" string="Tarif Carburant" readonly="1"/>
+                            <field name="acompte" string="Acompte"/>
+
+
+
+                        </group>
+                    </group>
+                    <group>
+                        <field name="second_vehicle_id" string="Second Véhicule" readonly="1"/>
+                    </group>
+                </sheet>
+
+                <!-- Notebook Pages: Insert custom pages -->
+                <notebook>
+                    <page string="Paiements et facturation">
+                        <field name="payment_ids" context="{'default_contract_id': active_id}">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="amount"/>
+                                <field name="state"/>
+                                <field name="move_id"/>
+                                <button name="print_invoice" type="object" string="Créer Facture" class="oe_highlight"/>
+                            </tree>
+                            
+                        </field>
+                    </page>
+                    <page string="Gestion d'alerte">
+                        <group>
+                        <group string="Vidange">
+                            <field name="force_create_vidange" string="Ignorer Vidange"/>
+                            <field name="kilometrage_vidange" string="Kilométrage vidange"/>
+                            <field name="montant_vidange" string="Montant vidange"/>
+                            <field name="nbr_kilometres_alerte" string="NBR kilomètres alerte"/>
+                        </group>
+                        <group string="Assurance">
+                            <field name="force_create_assurance" string="Ignorer Assurance"/>
+                            <field name="date_echeance_assurance" string="Date échéance assurance"/>
+                            <field name="montant_assurance" string="Montant assurance"/>
+                            <field name="nbr_jour_alerte_assurance" string="NBR jour alerte"/>
+                        </group>
+                        <group string="Leasing">
+                            <field name="force_create_leasing" string="Ignorer Leasing"/>
+                            <field name="date_echeance_leasing" string="Date échéance leasing"/>
+                            <field name="montant_leasing" string="Montant leasing"/>
+                            <field name="nbr_jours_alerte_leasing" string="NBR jours alerte"/>
+                        </group>
+                        <group string="Visite Technique">
+                            <field name="force_create_visite" string="Ignorer Visite Technique"/>
+                            <field name="date_echeance_visite" string="Date échéance visite"/>
+                            <field name="montant_visite" string="Montant visite"/>
+                            <field name="nbr_jour_alerte_visite" string="NBR jour alerte"/>
+                        </group>
+                        <group string="Vignette">
+                            <field name="force_create_vignette" string="Ignorer Vignette"/>
+                            <field name="date_echeance_vignette" string="Date échéance vignette"/>
+                            <field name="montant_vignette" string="Montant vignette"/>
+                            <field name="nbr_jour_alerte_vignette" string="NBR jour alerte"/>
+                        </group>
+                    </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="car_rental_contract_view_tree" model="ir.ui.view">
+        <field name="name">car.rental.contract.view.tree</field>
+        <field name="model">car.rental.contract</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Contrats de location de voiture">
+                <field name="name" string="Nom"/>
+                <field name="company_id" string="Client"/>
+                <field name="customer_id" string="Conducteur"/>
+                <field name="vehicle_id" string="Véhicule"/>
+                <field name="total_cost" string="Coût Total"/>
+                <field name="rent_start_date" string="Date de début"/>
+                <field name="rent_end_date" string="Date de fin"/>
+                <field name="acompte" string="Acompte"/>
+                <field name="tarif_carburant" string="Tarif Carburant"/>
+                <field name="state" string="Etat"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_car_rental_contract" model="ir.actions.act_window">
+        <field name="name">Contrat de location</field>
+        <field name="res_model">car.rental.contract</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids"
+            eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('car_rental_contract_view_tree')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('car_rental_contract_view_form')})]"/>
+    </record>
+
+    <record id="view_car_rental_extend_wizard_form" model="ir.ui.view">
+        <field name="name">car.rental.extend.wizard.form</field>
+        <field name="model">car.rental.extend.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Extend Rent">
+                <group>
+                    <field name="new_rent_end_date"/>
+                </group>
+                <footer>
+                    <button name="confirm_extension" string="Confirm" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_car_rental_change_vehicle_wizard_form" model="ir.ui.view">
+        <field name="name">car.rental.change.vehicle.wizard.form</field>
+        <field name="model">car.rental.change.vehicle.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Changer de Véhicule">
+                <group>
+                    <field name="new_vehicle_id" string="Nouveau Véhicule"/>
+                </group>
+                <footer>
+                    <button name="confirm_change_vehicle" string="Confirmer" type="object" class="oe_highlight"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+
+    <menuitem name="Location de flotte" id="fleet.menu_root" sequence="115"
+        groups="fleet.fleet_group_user"
+        web_icon="fleet_rental,static/description/icon.png"/>
+    <menuitem id="menu_car_parent" sequence="1" name="Gestion de location"
+        parent="fleet.menu_root"/>
+    <menuitem id="menu_car_rental_contract" parent="menu_car_parent"
+        name="Contrat de location"
+        action="action_car_rental_contract" sequence="1"/>
+</odoo>

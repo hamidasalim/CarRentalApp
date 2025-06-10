@@ -1,0 +1,148 @@
+<odoo>
+    <data>
+        <!-- Inherit Existing Vehicle Form View -->
+        <record id="view_fleet_vehicle_form_inherit" model="ir.ui.view">
+            <field name="name">fleet.vehicle.form.inherit</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+            <field name="arch" type="xml">
+
+
+                <!-- Driver field: Only show conducteurs -->
+                <xpath expr="//field[@name='driver_id']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <!-- Owner field: Only show locataires -->
+                <xpath expr="//field[@name='manager_id']" position="attributes">
+                    <attribute name="domain">[('is_locataire', '=', True)]</attribute>
+                </xpath>
+
+
+                <!-- removing unwanted stff -->
+
+                <xpath expr="//field[@name='future_driver_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='next_assignation_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='odometer']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='odometer_unit']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+
+                <!-- changing names stff -->
+
+                <xpath expr="//field[@name='manager_id']" position="attributes">
+                    <attribute name="string">Propriétaire du véhicule</attribute>
+                </xpath>
+                <!-- Insert custom fields within existing groups -->
+
+
+                <!-- Insert additional properties next to existing fields -->
+                <xpath expr="//field[@name='driver_id']" position="after">
+                    <field name="driver_mobile" string="Téléphone du conducteur" readonly="1" />
+                </xpath>
+
+                <!-- Insert additional information into a new group -->
+                <xpath expr="//notebook" position="before">
+                    <group string="Informations supplémentaires">
+                        <group>
+                            <field name="dernier_releve_kilometrique"
+                                string="Dernier relevé kilométrique" />
+                            <field name="date_sortie" string="Date de sortie" />
+                            <field name="enregistre_par" string="Enregistré par" />
+                            <field name="date_enregistrement" string="Date d'enregistrement" />
+                            
+                            <field name="modifie_par" string="Modifié par" />
+                            <field name="date_modification" string="Date de modification" />
+                            <field name="garantie_jusqua" string="Garantie jusqu'à" />
+                            <field name="compte_revenus" string="Compte de revenus" />
+                            <field name="compte_depenses" string="Compte de dépenses" />
+                            <field name="premiere_date_contrat" string="Première date de contrat" />
+                            <field name="tarif" string="Tarif" />
+                        </group>
+
+                        <group>
+                            <field name="car_pic" widget="image" string="photo de voiture"/>
+                        </group>
+                    </group>
+                </xpath>
+
+
+                <!-- Notebook Pages: Insert custom pages -->
+                <xpath expr="//notebook" position="inside">
+                    <!-- Page: Gestion d'alerte -->
+                    <page string="Gestion d'alerte">
+                        <group string="Vidange">
+                            <field name="kilometrage_vidange" string="Kilométrage vidange" />
+                            <field name="montant_vidange" string="Montant vidange" />
+                            <field name="nbr_kilometres_alerte" string="NBR kilomètres alerte" />
+                        </group>
+                        <group string="Assurance">
+                            <field name="date_echeance_assurance" string="Date échéance assurance" />
+                            <field name="montant_assurance" string="Montant assurance" />
+                            <field name="nbr_jour_alerte_assurance" string="NBR jour alerte" />
+                        </group>
+                        <group string="Leasing">
+                            <field name="date_echeance_leasing" string="Date échéance leasing" />
+                            <field name="montant_leasing" string="Montant leasing" />
+                            <field name="nbr_jours_alerte_leasing" string="NBR jours alerte" />
+                        </group>
+                        <group string="Visite Technique">
+                            <field name="date_echeance_visite" string="Date échéance visite" />
+                            <field name="montant_visite" string="Montant visite" />
+                            <field name="nbr_jour_alerte_visite" string="NBR jour alerte" />
+                        </group>
+                        <group string="Vignette">
+                            <field name="date_echeance_vignette" string="Date échéance vignette" />
+                            <field name="montant_vignette" string="Montant vignette" />
+                            <field name="nbr_jour_alerte_vignette" string="NBR jour alerte" />
+                        </group>
+                    </page>
+                    <!-- Page: Fluides -->
+                    <page string="Fluides">
+                        <group string="Carburant">
+                            <field name="type_carburant" string="Type de carburant" />
+                            <field name="fuel_capacity" string="Capacité de carburant" />
+                        </group>
+                        <group string="Huile">
+                            <field name="oil_name" string="Nom de l'huile" />
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_fleet_vehicle_tree_inherit" model="ir.ui.view">
+            <field name="name">fleet.vehicle.tree.inherit</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="dernier_releve_kilometrique" />
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_fleet_vehicle" model="ir.actions.act_window">
+            <field name="name">Vehicles</field>
+            <field name="res_model">fleet.vehicle</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_fleet_vehicle_tree_inherit" />
+            <field name="view_id" ref="view_fleet_vehicle_form_inherit" />
+            <field name="target">current</field>
+        </record>
+
+
+    </data>
+</odoo>

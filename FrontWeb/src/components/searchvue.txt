@@ -1,0 +1,57 @@
+
+
+<template>
+    <div class="search-results">
+      <h1 class="results-title">Search Results</h1>
+      <p v-if="startDate && endDate">
+        Showing cars available from <strong>{{ startDate }}</strong> to
+        <strong>{{ endDate }}</strong>.
+      </p>
+      <div class="car-list">
+        <p class="placeholder-text">
+          Replace this with dynamic search results.
+        </p>
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref, onMounted } from 'vue';
+  import { useRoute } from 'vue-router';
+  
+  const route = useRoute();
+  const startDate = ref('');
+  const endDate = ref('');
+  
+  onMounted(() => {
+    startDate.value = route.query.startDate || '';
+    endDate.value = route.query.endDate || '';
+  });
+  </script>
+  
+  <style scoped>
+  .search-results {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .results-title {
+    font-size: 1.8rem;
+    color: #213363;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .placeholder-text {
+    text-align: center;
+    font-size: 1rem;
+    color: #777;
+    margin-top: 20px;
+  }
+  </style>
+  

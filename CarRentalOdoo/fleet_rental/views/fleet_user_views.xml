@@ -1,0 +1,58 @@
+<odoo>
+    <data>
+        <!-- Action for Locataires -->
+        <record id="action_fleet_user" model="ir.actions.act_window">
+            <field name="name">Locataires</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_locataire', '=', True)]</field>
+            <field name="context">{'default_is_locataire': True}</field>
+            
+        </record>
+
+        <!-- Form View for Locataires -->
+        <record id="view_fleet_user_form" model="ir.ui.view">
+            <field name="name">fleet.user.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='login']" position="after">
+                    <group string="Informations Personnelles">
+                        <group>
+                            <field name="identity_card_picture" widget="image" string="Identity Card" />
+                        </group>
+                        <group>
+                            <field name="cin_number" required="1" string="CIN Number" />
+                            <field name="cin_date" string="CIN Issue Date" />
+                            <field name="date_of_birth" string="Date of Birth" />
+                            <field name="place_of_birth" string="Place of Birth" />
+                            <field name="birth_place" string="City of Birth" />
+                            <field name="street" string="Address" />
+                            <field name="num_tva" string="VAT Number" />
+                            <field name="registre_commerce" string="Trade Register" />
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Tree View for Locataires -->
+        <record id="view_fleet_user_tree" model="ir.ui.view">
+            <field name="name">fleet.user.tree</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="login" string="Email" />
+                    <field name="cin_number" string="CIN Number" />
+                    <field name="phone" string="Phone" />
+                </xpath>
+            </field>
+
+        </record>
+
+        <!-- Locataire Menu -->
+        <menuitem id="menu_fleet_user" name="Locataires" parent="car_rental_user_menu"
+            action="action_fleet_user" groups="fleet.fleet_group_manager" />
+    </data>
+</odoo>

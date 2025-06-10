@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    Formulaire de vue de la checklist-->
+    <record id="car_rental_contract_checklist_view_form" model="ir.ui.view">
+        <field name="name">car.rental.contract.view.form</field>
+            <field name="model">car.rental.contract</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Checklist de voiture" create="false">
+                <header>
+                    <button name="action_verify" string="Créer une facture" type="object"
+                            invisible="(state != 'checking') or (check_verify == True)"
+                            class="oe_highlight"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="checking"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="Contrat" readonly="1"/>
+                            <field name="customer_id" string="Client" readonly="1"/>
+                            <field name="vehicle_id" string="Véhicule" readonly="1"/>
+                            <field name="check_verify" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="damage_cost" string="Coût des dommages"/>
+                            <field name="attachment_ids" widget="many2many_binary"
+                                   class="oe_inline" readonly="1" string="Pièces jointes"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Checklist">
+                            <field name="checklist_line">
+                                <tree string="Lignes de checklist de flotte" create="false"
+                                      editable="bottom">
+                                    <field name="name" string="Nom"/>
+                                    <field name="checklist_active" string="Actif"/>
+                                    <field name="price" string="Prix"/>
+                                </tree>
+                            </field>
+                            <div>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="total" string="Total"/>
+                                    <field name="tools_missing_cost" string="Coût des outils manquants"/>
+                                    <field name="damage_cost_sub" string="Sous-total des dommages"/>
+                                    <field name="total_cost" string="Coût total"
+                                           class="oe_subtotal_footer_separator"/>
+                                </group>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--    Vue en liste de la checklist-->
+    <record id="car_rental_contract_checklist_view_tree" model="ir.ui.view">
+        <field name="name">car.rental.contract.view.tree</field>
+        <field name="model">car.rental.contract</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Contrats de voiture" create="false">
+                <field name="name" string="Contrat"/>
+                <field name="customer_id" string="Locataire"/>
+                <field name="state" string="État"/>
+            </tree>
+        </field>
+    </record>
+<!--    Action pour la vue formulaire de la checklist-->
+    <record id="action_fleet_rent_checklist" model="ir.actions.act_window">
+        <field name="name">Checklist</field>
+        <field name="res_model">car.rental.contract</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', 'in', ('running', 'checking'))]</field>
+        <field name="view_id" ref="car_rental_contract_checklist_view_form"/>
+    </record>
+    <record id="action_fleet_rent_checklist_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="car_rental_contract_checklist_view_form"/>
+        <field name="act_window_id" ref="action_fleet_rent_checklist"/>
+    </record>
+<!--    Action pour la vue liste de la checklist-->
+    <record id="action_fleet_rent_checklist_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="car_rental_contract_checklist_view_tree"/>
+        <field name="act_window_id" ref="action_fleet_rent_checklist"/>
+    </record>
+
+    <menuitem id="menu_car_checklist" parent="menu_car_parent" name="Checklist"
+              action="action_fleet_rent_checklist" sequence="2"/>
+</odoo>

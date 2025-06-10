@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="payment_invoice_report_action" model="ir.actions.report">
+    <field name="name">Invoice PDF</field>
+    <field name="model">account.payment</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">fleet_rental.payment_invoice_template</field>
+    <field name="binding_model_id" ref="account.model_account_payment"/>
+</record>
+
+
+<template id="payment_invoice_template">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <style>
+                body {
+                    font-family: 'Arial', sans-serif;
+                    color: #333;
+                    font-size: 14px;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .invoice-container {
+                    max-width: 900px;
+                    margin: 20px auto;
+                    padding: 30px;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    background-color: #fff;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                /* Header Section */
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 40px;
+                    border-bottom: 2px solid #333;
+                    padding-bottom: 20px;
+                }
+
+                .header .company-logo img {
+                    max-width: 120px;
+                }
+
+                .header .invoice-number {
+                    text-align: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: #333;
+                }
+
+                /* Client and Invoice Details */
+                .details {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 40px;
+                }
+
+                .details .col {
+                    flex: 1;
+                    padding: 10px;
+                }
+
+                .details p {
+                    margin: 5px 0;
+                    font-size: 16px;
+                }
+
+                .details strong {
+                    font-weight: bold;
+                }
+
+                /* Description Section */
+                .description {
+                    margin-bottom: 30px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 20px;
+                    background-color: #f9f9f9;
+                }
+
+                /* Totals Section */
+                .totals {
+                    margin-top: 30px;
+                    border-top: 2px solid #333;
+                    padding-top: 20px;
+                }
+
+                .totals .row {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 5px 0;
+                    font-size: 16px;
+                }
+
+                .totals .total-row {
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #333;
+                }
+
+                /* Footer Section */
+                .footer {
+                    margin-top: 40px;
+                    font-size: 14px;
+                    color: #777;
+                    border-top: 1px solid #ccc;
+                    padding-top: 20px;
+                    text-align: center;
+                }
+            </style>
+
+            <div class="invoice-container">
+                <!-- Header -->
+                <div class="header">
+                    <div class="company-logo">
+                        <t t-if="doc.env.user.company_id.logo">
+                            <img t-att-src="'data:image/png;base64,%s' % doc.env.user.company_id.logo" />
+                        </t>
+                    </div>
+                    
+                </div>
+
+                <!-- Client and Invoice Details -->
+                <div >
+                    <p><strong><t t-esc="doc.env.user.company_id.name" /></strong></p>
+                    <p><t t-if="doc.env.user.company_id.street">Adresse: <t t-esc="doc.env.user.company_id.street" /></t></p>
+                    <p><t t-if="doc.env.user.company_id.phone">Telephone: <t t-esc="doc.env.user.company_id.phone" /></t></p>
+                    <p><t t-if="doc.env.user.company_id.vat">MF: <t t-esc="doc.env.user.company_id.vat" /></t></p>
+                </div>
+                <div class="invoice-number">
+                    <center>
+                    <h4 style="font-weight:bold!important; font-family: Lemonada; color:black !important;font-size:30px;">    Facture # <t t-esc="doc.name" /></h4>
+                </center>
+                </div>
+                <div class="details">
+                    <div class="col">
+                        <p><strong>Client:</strong> <t t-esc="doc.contract_id.customer_id.name" /></p>
+                        <p><strong>Methode de Paiement:</strong> <t t-esc="doc.journal_id.name" /></p>
+                    </div>
+                    <div class="col">
+                        <p><strong>Date de Facture:</strong> <t t-esc="doc.date" /></p>
+                        <p><strong>Date d'Echeance:</strong> ....................</p>
+                    </div>
+                </div>
+
+                <!-- Description Section -->
+                <div class="description">
+                    <p><strong>Description:</strong></p>
+                    <p>Paiement pour la location du vehicule: <t t-esc="'%s %s' % (doc.vehicle_id.model_id.brand_id.name , doc.vehicle_id.model_id.name )" /></p>
+                </div>
+
+                <!-- Totals Section -->
+            
+                        <table  style="text-align: center; margin-left:500px;">
+                            <tr class="col-4" style="color:black; font-size:10px;">
+                                <td style=" width: 25%;font-size:16px; font-weight:bold; border:1px solid #231f20;">
+                                   Total HT
+                                  </td>
+                                  <td style="width: 17%; text-align:center;font-size:16px; border:1px solid #231f20; color:black;">
+                                    <t t-esc="'%.2f' % doc.contract_id.total_cost" /> DT
+                                  </td>
+                            </tr>
+                            <tr class="col-4" style="width: 25%;color:black; font-size:16px;">
+                                <td style=" font-weight:bold; border:1px solid #231f20;">
+                                    TVA (19%)
+                                  </td>
+                                  <td style="width: 17%; text-align:center; vertical-align:font-size:16px; middle;border:1px solid #231f20; color:black;">
+                                    <t t-esc="'%.2f' % (doc.contract_id.total_cost * 0.19)" /> DT</td>
+                            </tr>
+                            <tr class="col-4" style="width: 25%;color:black; font-size:16px;">
+                                <td style="font-weight:bold; border:1px solid #231f20;">
+                                    Timbre Fiscale                          </td>
+                                  <td style="width: 17%; text-align:center;font-size:16px; vertical-align: middle;border:1px solid #231f20; color:black;">
+                                    1 DT                          </td>
+                            </tr>
+                            <tr class="col-4" style="color:black; font-size:16px;">
+                                <td style=" width: 25%;font-weight:bold; border:1px solid #231f20;">
+                                    Total TTC                          </td>
+                                  <td style="width: 17%; text-align:center; vertical-align: middle;border:1px solid #231f20; color:black;">
+                                    <t t-esc="'%.2f' % doc.amount" /> DT</td>
+                            </tr>
+                    
+                         </table>
+
+                 
+
+                    
+        
+
+                <div class="signature-section">
+                    <p>Signature du Client</p>
+                    <div class="signature-box"></div>
+                </div>
+
+                <div >
+                    Merci pour votre paiement.
+                </div>
+
+                <!-- Footer Section -->
+                
+            </div>
+        </t>
+    </t>
+</template>
+
+    
+    
+</odoo>

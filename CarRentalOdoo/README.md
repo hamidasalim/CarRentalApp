@@ -134,7 +134,7 @@ This repository contains a comprehensive **Odoo 17-based Fleet Rental Management
 
 ## Getting Started
 
-1-Clone the repository**.
-2-Install dependencies** as per Odoo 17 documentation.
-3-Load modules** fleet_rental and fleet_rental_dashboard in your Odoo instance.
-4-Start managing fleet rentals** and monitoring analytics.
+1-Clone the repository.
+2-Install dependencies as per Odoo 17 documentation.
+3-Load modules fleet_rental and fleet_rental_dashboard in your Odoo instance.
+4-Start managing fleet rentals and monitoring analytics.
